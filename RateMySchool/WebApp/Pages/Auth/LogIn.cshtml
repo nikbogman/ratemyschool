@@ -1,0 +1,26 @@
+﻿@page
+@model WebApp.Pages.Auth.LogInModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container">
+    <form class="auth-form" method="post">
+        <h1 class="mb-3 text-center">Login</h1>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email <span class="required">*</span></label>
+            <input asp-for="Credentials.Email" type="text" class="form-control" id="email" placeholder="Enter your email">
+            <span asp-validation-for="Credentials.Email"></span>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password <span class="required">*</span></label>
+            <input asp-for="Credentials.Password" type="password" class="form-control" id="password" placeholder="Enter your password">
+            <span asp-validation-for="Credentials.Password"></span>
+        </div>
+        @if (Model.IsIncorrect)
+        {
+            <div class="alert alert-danger" role="alert">Incorrect email or password</div>
+        }
+        <button type="submit" class="btn btn-lg btn-primary w-100">Login</button>
+    </form>
+</div>

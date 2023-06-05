@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .my-5 {
+            margin-top: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .required {
+            font-weight: bold;
+            color: red;
+        }
+
+        .rating-input {
+            display: flex;
+            align-items: center;
+        }
+
+        .stars {
+            display: inline-flex;
+        }
+
+        .rating-input .stars {
+            margin-left: 1.25rem;
+        }
+
+        .stars .star {
+            cursor: pointer;
+            color: gray;
+            transition: color 0.2s;
+        }
+
+        .stars .star.checked {
+            color: gold;
+        }
+    </style>
+    <title>School Reviews</title>
+</head>
+
+<body>
+    <div class="my-5 container">
+        <h1 class="text-body-emphasis p-4 text-center">School Name</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">Address: 123 Main Street</p>
+                <p class="card-text">City: New York</p>
+                <p class="card-text">Country: USA</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="">
+            <h2 class="p-4 text-center">Reviews</h2>
+
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <h5 class="card-title">John Doe</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Date: May 17, 2023</h6>
+                        <p class="card-text">This school provides excellent education and great extracurricular
+                            activities.</p>
+                        <div class="stars">
+                            <span class="fa fa-star star checked"></span>
+                            <span class="fa fa-star star checked"></span>
+                            <span class="fa fa-star star checked"></span>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger mt-2">Report</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="my-5">
+            <h2 class="text-center">Add Review</h2>
+
+            <form>
+                <div class="mb-3">
+                    <label for="reviewContent" class="form-label">Content <span class="required">*</span></label>
+                    <textarea class="form-control" id="reviewContent" rows="3"
+                        placeholder="Write your review"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="rating-input" class="form-label">Rating <span class="required">*</span></label>
+                    <div class="rating-input">
+                        <input type="number" min="0" max="5" step="1" class="star-input">
+                        <div class="stars"></div>
+                    </div>
+                    <input type="hidden" id="rating" name="rating" value="0">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <script>
+        const raitngInput = document.querySelector('.rating-input');
+        const starInput = raitngInput.querySelector('.star-input');
+        const stars = raitngInput.querySelector('.stars');
+
+        console.log(starInput);
+        console.log(stars);
+
+        starInput.addEventListener('input', updateStars);
+
+        function updateStars() {
+            const rating = parseFloat(starInput.value);
+            stars.innerHTML = '';
+
+            for (let i = 1; i <= 5; i++) {
+                const star = document.createElement('span');
+                star.classList.add('fa', 'fa-star', 'star', i <= rating ? 'checked' : null);
+                star.addEventListener('click', () => {
+                    starInput.value = i;
+                    updateStars();
+                });
+                stars.appendChild(star);
+            }
+        }
+
+        updateStars();
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

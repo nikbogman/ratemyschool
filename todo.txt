@@ -1,0 +1,17 @@
+UML: Not up to date 
+Single responsibility: Need good UML to check 
+Events and delegates: Not seen
+
+The application is divided into layers and the domain and infrastructure layer are loosely coupled using DIP
+No input validation
+No algorithm in the core layer
+No unit tests yet.
+
+[] - add create report form
+[] - add viewModel validation and processing(if needed) middleware
+[] - add on cascade delete when needed
+[] - implement soft delete
+
+
+---------
+refactor algorithm to be oop

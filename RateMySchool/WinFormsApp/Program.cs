@@ -1,3 +1,7 @@
+using Core.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+
 namespace WinFormsApp
 {
     internal static class Program
@@ -12,6 +16,9 @@ namespace WinFormsApp
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
+
+            var services = new ServiceCollection();
+
         }
     }
 }

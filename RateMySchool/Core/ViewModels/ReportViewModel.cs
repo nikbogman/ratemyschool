@@ -7,9 +7,6 @@ namespace Core.ViewModels
     {
         [Required(ErrorMessage = "Content of review shoud be provided for creation")]
         public string Reason { get; set; }
-
-        public Guid ReviewId { get; private set; }
-
-        public void SetReviewId(Guid reviewId) { ReviewId = reviewId; }
+        public Guid ReviewId { get; set; }
     }
 }

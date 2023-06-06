@@ -3,6 +3,7 @@
 @{
     //ViewData["Title"] = "Details";
 }
+@using Core.Entities;
 
 <style>
     .my-5 {
@@ -78,7 +79,7 @@
                     </div>
                     @if (User.Identity != null && User.Identity.IsAuthenticated)
                     {
-                        <button class="btn btn-danger mt-2">Report</button>
+                        <a asp-page="/Reports/Create" asp-route-id="@review.Id" class="btn btn-danger me-2 mt-2">Report</a>
                     }
                 </div>
             </div>

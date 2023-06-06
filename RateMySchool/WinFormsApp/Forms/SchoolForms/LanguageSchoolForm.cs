@@ -1,11 +1,12 @@
 ﻿using Core.Entities.SchoolEntities;
 using Core.Managers.SchoolManagers;
+using Core.ViewModels;
 using Core.ViewModels.SchoolViewModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace WinFormsApp.Forms.SchoolForms
 {
-    public partial class LanguageSchoolForm : Form
+    public partial class LanguageSchoolForm : Form, ICRUDFrom<LanguageSchoolEntity>
     {
         private readonly LanguageSchoolManager _manager;
         public LanguageSchoolEntity Data { get; set; }

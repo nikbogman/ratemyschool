@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
 using Core.Interfaces;
+using Core.Exceptions;
 
 namespace DAL
 {
@@ -17,7 +18,7 @@ namespace DAL
             {
                 using MySqlCommand command = connection.CreateCommand();
                 command.CommandText = $"SELECT * FROM {_mapper.TableName}";
-                
+
                 connection.Open();
                 using MySqlDataAdapter adapter = new(command);
                 DataSet dataSet = new();
@@ -28,19 +29,21 @@ namespace DAL
                 foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
                     var entity = Activator.CreateInstance(typeof(EntityT), row);
-                    if (entity == null) 
-                    { 
+                    if (entity == null)
+                    {
                         continue;
                     }
                     entities.Add((EntityT)entity);
                 }
                 return entities;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
             }
+            catch (Exception) { throw; }
+            finally
+            { if (connection.State == ConnectionState.Open) connection.Dispose(); }
         }
         public EntityT? SelectOne(Guid id)
         {
@@ -50,7 +53,7 @@ namespace DAL
                 using MySqlCommand command = connection.CreateCommand();
                 command.CommandText = $"SELECT * FROM {_mapper.TableName} WHERE id = @id";
                 command.Parameters.AddWithValue("@id", id);
-                
+
                 connection.Open();
                 using MySqlDataAdapter adapter = new(command);
                 DataSet dataSet = new();
@@ -66,11 +69,12 @@ namespace DAL
                 if (entity == null) { return default; }
                 return (EntityT)entity;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
             }
+            catch (Exception) { throw; }
+            finally { if (connection.State == ConnectionState.Open) connection.Dispose(); }
         }
         public bool Insert(EntityT entity)
         {
@@ -78,21 +82,21 @@ namespace DAL
             try
             {
                 Dictionary<string, string> mapStr = _mapper.GetCommandTextMapStrings();
-                connection.Open();
                 using MySqlCommand command = connection.CreateCommand();
                 command.CommandText = $"INSERT INTO {_mapper.TableName} ({mapStr["Keys"]}) VALUES ({mapStr["Values"]})";
                 _mapper.MapCommandParameters(command.Parameters, entity);
-
+                
+                connection.Open();
                 bool success = command.ExecuteNonQuery() > 0;
                 connection.Close();
                 return success;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
             }
-
+            catch (Exception) { throw; }
+            finally { if (connection.State == ConnectionState.Open) connection.Dispose(); }
         }
         public bool Update(EntityT entity)
         {
@@ -103,16 +107,17 @@ namespace DAL
                 using MySqlCommand command = connection.CreateCommand();
                 command.CommandText = $"UPDATE {_mapper.TableName} AS t SET {_mapper.GetClausesString()} WHERE id = @id";
                 _mapper.MapCommandParameters(command.Parameters, entity);
-                
+
                 bool success = command.ExecuteNonQuery() > 0;
                 connection.Close();
                 return success;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
             }
+            catch (Exception) { throw; }
+            finally { if (connection.State == ConnectionState.Open) connection.Dispose(); }
         }
         public bool Delete(Guid id)
         {
@@ -123,16 +128,17 @@ namespace DAL
                 using MySqlCommand command = connection.CreateCommand();
                 command.CommandText = $"DELETE FROM {_mapper.TableName} WHERE id = @id";
                 command.Parameters.AddWithValue("@id", id);
-                
+
                 bool success = command.ExecuteNonQuery() > 0;
                 connection.Close();
                 return success;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
             }
+            catch (Exception) { throw; }
+            finally { if (connection.State == ConnectionState.Open) connection.Dispose(); }
         }
     }
 }

@@ -10,9 +10,11 @@ namespace WebApp.Pages.Schools
     {
         private readonly SchoolsManager _schoolManager = new(
             repository: new BaseSchoolRepository("Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass"),
-            reviewManager: new(
-                repository: new ReviewRepository("Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass")
-            )
+            statisticsService: new(
+                reviewManager: new(
+                    repository: new ReviewRepository("Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass")
+                )
+                )
         );
 
         public IEnumerable<BaseSchoolEntity> Schools { get; private set; }

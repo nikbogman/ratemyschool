@@ -1,4 +1,22 @@
-﻿@page
+﻿@page "{id}"
 @model WebApp.Pages.Reports.CreateModel
-@{
-}
+@{}
+
+<style>
+    .my-5 {
+        margin-top: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+</style>
+<div class="my-5">
+    <h2 class="text-center">Report of review</h2>
+    <form method="post">
+        <div class="mb-3">
+            <label for="reviewContent" class="form-label">Reason <span class="required">*</span></label>
+            <textarea asp-for="ReportViewModel.Reason" class="form-control" id="reviewContent" rows="3"
+                      placeholder="Write your reasoning"></textarea>
+            <span asp-validation-for="ReportViewModel.Reason"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

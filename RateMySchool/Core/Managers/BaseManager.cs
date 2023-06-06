@@ -1,7 +1,7 @@
-﻿
-using Core.Entities;
+﻿using Core.Entities;
 using Core.Exceptions;
 using Core.Interfaces;
+using System.Diagnostics;
 
 namespace Core.Managers
 {
@@ -21,7 +21,7 @@ namespace Core.Managers
         {
             try
             {
-                var validViewModel = validateInput(viewModel);
+                ViewModelT validViewModel = viewModelParser(viewModel);
                 EntityT entity = (EntityT)Activator.CreateInstance(typeof(EntityT), validViewModel)!;
                 entity.GenerateId();
                 if (!_repository.Insert(entity))
@@ -32,8 +32,10 @@ namespace Core.Managers
             }
             catch (DataAccessException ex)
             {
-                throw new InternalServerException(ex.Message, ex);
-            }catch (Exception) { throw; }
+                Debug.WriteLine(ex.Message);
+                throw new InternalServerException(ex);
+            }
+            catch (Exception) { throw; }
         }
 
         public virtual IEnumerable<EntityT> GetAll()
@@ -41,6 +43,11 @@ namespace Core.Managers
             try
             {
                 return _repository.SelectAll();
+            }
+            catch (DataAccessException ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw new InternalServerException(ex);
             }
             catch (Exception) { throw; }
         }
@@ -56,6 +63,11 @@ namespace Core.Managers
                 }
                 return entity;
             }
+            catch (DataAccessException ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw new InternalServerException(ex);
+            }
             catch (Exception) { throw; }
         }
 
@@ -69,6 +81,11 @@ namespace Core.Managers
                 }
                 return;
             }
+            catch (DataAccessException ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw new InternalServerException(ex);
+            }
             catch (Exception) { throw; }
         }
 
@@ -76,7 +93,7 @@ namespace Core.Managers
         {
             try
             {
-                var validViewModel = validateInput(viewModel);
+                ViewModelT validViewModel = viewModelParser(viewModel);
                 EntityT entity = (EntityT)Activator.CreateInstance(typeof(EntityT), validViewModel)!;
                 entity.SetId(id);
                 if (!_repository.Update(entity))
@@ -85,9 +102,14 @@ namespace Core.Managers
                 }
                 return entity;
             }
+            catch (DataAccessException ex)
+            {
+                Debug.WriteLine(ex.Message);
+                throw new InternalServerException(ex);
+            }
             catch (Exception) { throw; }
         }
 
-        protected virtual ViewModelT validateInput(ViewModelT viewModel) { return viewModel; }
+        protected virtual ViewModelT viewModelParser(ViewModelT viewModel) { return viewModel; }
     }
 }

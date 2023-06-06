@@ -1,6 +1,7 @@
 using Core.Entities;
 using Core.Entities.SchoolEntities;
 using Core.Managers;
+using Core.Managers.FeatureManagers;
 using Core.Managers.SchoolManagers;
 using Core.ViewModels;
 using DAL.Repositories;
@@ -16,12 +17,19 @@ namespace WebApp.Pages.Schools.Details
     {
         const string _connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
 
-        private readonly LanguageSchoolManager _langSchoolManager = new(
-           repository: new LanguageSchoolRepository(_connectionString)
+        private readonly ReviewManager _reviewManager;
+
+        private StatisticService _statisticService => new StatisticService(_reviewManager);
+
+        private LanguageSchoolManager _langSchoolManager => new LanguageSchoolManager(
+           repository: new LanguageSchoolRepository(_connectionString),
+           statisticsService: _statisticService
         );
-        private readonly ReviewManager _reviewManager = new(
-           repository: new ReviewRepository(_connectionString)
-        );
+
+        public LanguageModel(ReviewManager reviewManager)
+        {
+            _reviewManager = reviewManager;
+        }
 
         public LanguageSchoolEntity LanguageSchool { get; set; }
         public IEnumerable<ReviewEntity> Reviews { get; set; }
@@ -31,7 +39,7 @@ namespace WebApp.Pages.Schools.Details
 
         public IActionResult OnGet(Guid id)
         {
-            LanguageSchool = _langSchoolManager.GetOneById(id, _reviewManager);
+            LanguageSchool = _langSchoolManager.GetOneById(id);
             Reviews = _reviewManager.GetAllBySchoolId(id);
             return Page();
         }
@@ -48,7 +56,7 @@ namespace WebApp.Pages.Schools.Details
             ReviewViewModel.UserId = userId;
             if (!ModelState.IsValid)
             {
-                LanguageSchool = _langSchoolManager.GetOneById(id, _reviewManager);
+                LanguageSchool = _langSchoolManager.GetOneById(id);
                 Reviews = _reviewManager.GetAllBySchoolId(id);
                 return Page();
             }

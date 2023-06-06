@@ -1,4 +1,5 @@
 using Core.Entities.SchoolEntities;
+using Core.Exceptions;
 using Core.Interfaces;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
@@ -39,10 +40,14 @@ namespace DAL.Repositories.SchoolRepositories
                 }
                 return entities;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
+            }
+            catch (Exception) { throw; }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Dispose();
             }
         }
 
@@ -75,10 +80,14 @@ namespace DAL.Repositories.SchoolRepositories
                 if (entity == null) { return default; }
                 return (SchoolEntityT)entity;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
+            }
+            catch (Exception) { throw; }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Dispose();
             }
         }
 
@@ -95,6 +104,10 @@ namespace DAL.Repositories.SchoolRepositories
                 string columns = string.Join(", ", columnNames);
                 string values = string.Join(", ", columnNames.Select(c => "@" + c));
 
+
+                Dictionary<string, string> parentMapStr = _parentMapper.GetCommandTextMapStrings();
+                Dictionary<string, string> childMapStr = _childMapper.GetCommandTextMapStrings();
+
                 bool success = false;
                 connection.Open();
                 MySqlTransaction transaction = connection.BeginTransaction();
@@ -103,14 +116,14 @@ namespace DAL.Repositories.SchoolRepositories
                     using (MySqlCommand command = connection.CreateCommand())
                     {
                         command.Transaction = transaction;
-                        command.CommandText = $"INSERT INTO {_parentMapper.TableName} ({parentColumns}) VALUES ({parentValues})";
+                        command.CommandText = $"INSERT INTO {_parentMapper.TableName} ({parentMapStr["Keys"]}) VALUES ({parentMapStr["Values"]})";
                         _parentMapper.MapCommandParameters(command.Parameters, entity);
                         success = command.ExecuteNonQuery() > 0;
                     }
                     using (MySqlCommand command = connection.CreateCommand())
                     {
                         command.Transaction = transaction;
-                        command.CommandText = $"INSERT INTO {_childMapper.TableName} ({columns}) VALUES ({values})";
+                        command.CommandText = $"INSERT INTO {_childMapper.TableName} ({childMapStr["Keys"]}) VALUES ({childMapStr["Values"]})";
                         _childMapper.MapCommandParameters(command.Parameters, entity);
                         success = command.ExecuteNonQuery() > 0;
                     }
@@ -124,10 +137,14 @@ namespace DAL.Repositories.SchoolRepositories
                 connection.Close();
                 return success;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
+            }
+            catch (Exception) { throw; }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Dispose();
             }
         }
         public bool Update(SchoolEntityT entity)
@@ -151,10 +168,14 @@ namespace DAL.Repositories.SchoolRepositories
                 connection.Close();
                 return success;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
+            }
+            catch (Exception) { throw; }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Dispose();
             }
         }
         public bool Delete(Guid id)
@@ -177,10 +198,14 @@ namespace DAL.Repositories.SchoolRepositories
                 connection.Close();
                 return success;
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
-                connection.Dispose();
-                throw DataAccessExceptionHandler.Handle(ex);
+                throw new DataAccessException($"Unexpected error occured with code {ex.Number}", ex);
+            }
+            catch (Exception) { throw; }
+            finally
+            {
+                if (connection.State == ConnectionState.Open) connection.Dispose();
             }
         }
     }

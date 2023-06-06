@@ -4,7 +4,7 @@ using Core.Interfaces;
 
 namespace Core.ViewModels.SchoolViewModels
 {
-    public class BaseSchoolViewModel : IViewModel
+    public class BaseSchoolViewModel: IViewModel
     {
         [Required(ErrorMessage = "Name property is required")]
         public string Name { get; set; }

@@ -19,7 +19,7 @@ namespace WinFormsApp.TabPages
 
         public void PreloadPage()
         {
-            //DataGridView_Load(_reportManager.GetAll());
+            DataGridView_Load(_reportManager.GetAll());
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
@@ -32,7 +32,7 @@ namespace WinFormsApp.TabPages
                     throw new Exception("Row with school has to be selected in order to delete it");
                 }
                 var langSchool = (ReportEntity)dataBoundItem;
-                //_reportManager.DeleteOne(langSchool.Id);
+                _reportManager.DeleteOne(langSchool.Id);
                 var langSchoolDataSource = (List<ReportEntity>)dataGridView.DataSource;
                 langSchoolDataSource.Remove(langSchool);
                 DataGridView_Load(langSchoolDataSource);

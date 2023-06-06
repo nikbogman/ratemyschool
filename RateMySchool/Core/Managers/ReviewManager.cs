@@ -27,7 +27,7 @@ namespace Core.Managers
             List<RatingStatistic> statistics = new();
             if (result.Rows.Count <= 0)
             {
-                throw new Exception("");
+                return new();
             }
             foreach (DataRow row in result.Rows)
             {

@@ -4,9 +4,8 @@ using Core.ViewModels;
 
 namespace Core.Managers
 {
-    public class ReportManager
+    public class ReportManager: BaseManager<ReportEntity, ReportViewModel>
     {
-        private readonly IReportRepository _repository;
-        public ReportManager(IReportRepository repository) { _repository = repository; }
+        public ReportManager(IReportRepository repository): base(repository) {  }
     }
 }

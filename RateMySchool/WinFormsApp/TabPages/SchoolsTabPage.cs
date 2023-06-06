@@ -33,7 +33,7 @@ namespace WinFormsApp.TabPages
             filterComboBox.DataSource = Enum.GetValues(typeof(SchoolType));
             filterComboBox.SelectedIndex = 0;
 
-            filterPropertyComboBox.LoadPropsFromType(typeof(LanguageSchoolEntity), x => x != "Type");
+            filterPropertyComboBox.LoadPropsFromType(typeof(LanguageSchoolEntity), x => !x.Contains("Type") && !x.Contains("Rank") && x != "Rating");
             dataGridView.Load(_languageSchoolManager.GetAll());
         }
 
@@ -304,7 +304,7 @@ namespace WinFormsApp.TabPages
         {
             try
             {
-                Func<string, bool> predictate = x => x != "Type";
+                static bool predictate(string x) => !x.Contains("Type") && !x.Contains("Rank") && x != "Rating";
                 switch (filterComboBox.SelectedItem)
                 {
                     case SchoolType.Language:

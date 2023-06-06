@@ -2,10 +2,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Core.Interfaces;
+using Core.ViewModels;
+using System.Data;
 
 namespace Core.Entities
 {
-    public class BaseEntity : IEntity
+    public abstract class BaseEntity : IEntity
     {
         [Key]
         [Column("id")]

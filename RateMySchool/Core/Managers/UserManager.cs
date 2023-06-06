@@ -26,7 +26,7 @@ namespace Core.Managers
             return user;
         }
 
-        protected override UserViewModel validateInput(UserViewModel viewModel)
+        protected override UserViewModel viewModelParser(UserViewModel viewModel)
         {
             if (!new Regex("^(?=.*?[A-Z])").IsMatch(viewModel.Password))
             {

@@ -7,7 +7,7 @@ using Core.Interfaces;
 namespace Core.Entities
 {
     [Table("report")]
-    public class ReportEntity : IEntity
+    public class ReportEntity : BaseEntity
     {
         [Key]
         [Column("id")]
@@ -30,9 +30,8 @@ namespace Core.Entities
             ReviewId = Guid.Parse((string)row["review_id"]);
         }
 
-        public ReportEntity(ReportViewModel viewModel, Guid? id)
+        public ReportEntity(ReportViewModel viewModel)
         {
-            Id = id == null ? Guid.NewGuid() : (Guid)id;
             Reason = viewModel.Reason;
             ReviewId = viewModel.ReviewId;
         }

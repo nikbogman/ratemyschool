@@ -126,11 +126,7 @@ namespace WinFormsApp.Forms.SchoolForms
             asmntTextBox.ReadOnly = true;
 
             execBtn.Text = "Close";
-            execBtn.Click += closeOnClick;
-        }
-        private void closeOnClick(object sender, EventArgs e)
-        {
-            Close();
+            execBtn.Click += delegate (object sender, EventArgs e) { Close(); };
         }
     }
 }

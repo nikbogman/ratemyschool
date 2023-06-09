@@ -1,32 +1,28 @@
 ﻿@page
 @model WebApp.Pages.Auth.RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "SignUp";
 }
 
 <div class="container">
     <form class="auth-form" method="post">
-        <h1 class="mb-3 text-center">Register</h1>
+        <h1 class="mb-3 text-center">Sign Up</h1>
         <div class="mb-3">
             <label for="email" class="form-label">Email <span class="required">*</span></label>
             <input asp-for="UserViewModel.Email" type="email" class="form-control" id="email" placeholder="Enter your email address">
-            <span asp-validation-for="UserViewModel.Email"></span>
+            <span class="text-danger" asp-validation-for="UserViewModel.Email"></span>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password <span class="required">*</span></label>
             <input asp-for="UserViewModel.Password" type="password" class="form-control" id="password" placeholder="Enter your password">
-            <span asp-validation-for="UserViewModel.Password"></span>
+            <span class="text-danger" asp-validation-for="UserViewModel.Password"></span>
 
         </div>
         <div class="mb-3">
             <label for="age" class="form-label">Birthyear <span class="required">*</span></label>
             <input asp-for="UserViewModel.BirthYear" type="number" class="form-control" id="birthyear" min="1923" max="2023" placeholder="Enter your birthyear">
-            <span asp-validation-for="UserViewModel.BirthYear"></span>
+            <span class="text-danger" asp-validation-for="UserViewModel.BirthYear"></span>
         </div>
-        @if (Model.Error != null)
-        {
-            <div class="alert alert-danger" role="alert">@Model.Error</div>
-        }
-        <button type="submit" class="btn btn-lg btn-primary w-100">Register</button>
+        <button type="submit" class="btn btn-lg btn-primary w-100">Submit</button>
     </form>
 </div>

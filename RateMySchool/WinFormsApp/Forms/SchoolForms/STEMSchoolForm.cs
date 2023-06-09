@@ -123,11 +123,7 @@ namespace WinFormsApp.Forms.SchoolForms
             entryAsmntCheckBox.Enabled = false;
 
             execBtn.Text = "Close";
-            execBtn.Click += closeOnClick;
-        }
-        private void closeOnClick(object sender, EventArgs e)
-        {
-            Close();
+            execBtn.Click += delegate (object sender, EventArgs e) { Close(); };
         }
     }
 }

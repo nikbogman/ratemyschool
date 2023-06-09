@@ -23,8 +23,7 @@ namespace Core.Entities.SchoolEntities
         public SchoolType Type { get; protected set; }
 
         public float Rating { get; set; }
-        public int OverallRank { get; set; }
-        public int TypeRank { get; set; }
+        public Dictionary<string, int> Rank { get; set; }
 
         public BaseSchoolEntity(DataRow row)
         {
@@ -33,6 +32,7 @@ namespace Core.Entities.SchoolEntities
             City = (string)row["city"];
             Number = (int)row["number"];
             Type = row.GetEnumValue<SchoolType>("type");
+            Rank = new Dictionary<string, int>();
         }
 
         public BaseSchoolEntity(BaseSchoolViewModel viewModel)

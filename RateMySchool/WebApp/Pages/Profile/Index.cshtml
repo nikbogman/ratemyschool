@@ -1,4 +1,20 @@
 ﻿@page
 @model WebApp.Pages.Profile.IndexModel
 @{
+    ViewData["Title"] = "Profile";
 }
+
+<main>
+<div class="my-5 container">
+        <h1 class="text-body-emphasis p-4 text-center">Profile</h1>
+    <div class="card mb-3">
+            <div class="card-body">
+                <p class="card-text">Email: <b>@Model.UserData.Email</b></p>
+                <p class="card-text">Birth year: <b>@Model.UserData.BirthYear</b></p>
+            </div>
+        </div>
+        <form method ="post">
+            <button type="submit"  class="btn btn-danger">Delete Account</button>
+        </form>
+    </div>
+</main>

@@ -1,8 +1,9 @@
-﻿using Core.Interfaces;
+﻿using Core.Interfaces.RepositoryInterfaces;
 using Core.Entities;
 using Core.ViewModels;
 using System.Text.RegularExpressions;
 using Core.Exceptions;
+using System.Diagnostics;
 
 namespace Core.Managers
 {
@@ -10,24 +11,29 @@ namespace Core.Managers
     {
         public UserManager(IUserRepository repository) : base(repository) { }
 
-        protected override IUserRepository getRepository() => (IUserRepository)base.getRepository();
+        protected override IUserRepository Repository { get => (IUserRepository)base.Repository; }
 
         public UserEntity GetOneWithCredentials(string email, string password)
         {
-            UserEntity? user = getRepository().SelectOneByEmail(email);
+
+            UserEntity? user = Repository.SelectOneByEmail(email);
             if (user == null)
             {
                 throw new NotFoundException($"No `user` with `email`:{email} was found.");
             }
             if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
-                throw new InputValidationException("Password credential for `user` is not correct.");
+                throw new UnauthorizedException("Password credential for `user` is not correct.");
             }
             return user;
         }
 
-        protected override UserViewModel viewModelParser(UserViewModel viewModel)
+        public override UserViewModel viewModelParser(UserViewModel viewModel)
         {
+            if (Repository.SelectOneByEmail(viewModel.Email) != null)
+            {
+                throw new InputValidationException($"Provided email is not unique. User with this email alredy exists");
+            }
             if (!new Regex("^(?=.*?[A-Z])").IsMatch(viewModel.Password))
             {
                 throw new InputValidationException("Password not strong enough. It should contain at least one uppercase letter.");

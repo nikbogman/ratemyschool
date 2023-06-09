@@ -1,5 +1,6 @@
 using Core.Entities;
 using Core.Exceptions;
+using Core.Interfaces.RepositoryInterfaces;
 using Core.Managers;
 using DAL.Repositories;
 using Microsoft.AspNetCore.Authentication;
@@ -12,35 +13,45 @@ using WebApp.ViewModels;
 
 namespace WebApp.Pages.Auth
 {
-    public class LogInModel : PageModel
+    public class LoginModel : PageModel
     {
+        private readonly UserManager _manager;
+
+        public LoginModel(IUserRepository repo) { _manager = new(repo); }
+
+
         [BindProperty]
         public LogInViewModel Credentials { get; set; }
 
-        private UserManager _manager = new UserManager(
-            repository: new UserRepository("Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass")
-        );
-
-        public bool IsIncorrect { get; private set; } = false;
+        public string? Error { get; private set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = _manager.GetOneWithCredentials(Credentials.Email, Credentials.Password);
-            if (user == null)
+            try
             {
-                IsIncorrect = true;
-                return Page();
-            }
-            List<Claim> claims = new()
+                UserEntity user = _manager.GetOneWithCredentials(Credentials.Email, Credentials.Password);
+                List<Claim> claims = new()
                 {
                     new Claim("id", user.Id.ToString())
                 };
-            await HttpContext.SignInAsync(
-                new ClaimsPrincipal(
-                    new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)
-                )
-            );
-            return RedirectToPage("/Index");
+                await HttpContext.SignInAsync(
+                    new ClaimsPrincipal(
+                        new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme)
+                    )
+                );
+                return RedirectToPage("/Index");
+            }
+            catch (Exception ex)
+            {
+                var path = ErrorHandler.GetPath(ex);
+                if(path == string.Empty)
+                {
+                    Error = ex.Message;
+                    return Page();
+                }
+                return RedirectToPage("/Errors/" + path);
+            }
+
         }
     }
 }

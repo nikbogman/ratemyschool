@@ -7,12 +7,8 @@ using Core.Interfaces;
 namespace Core.Entities
 {
     [Table("review")]
-    public class ReviewEntity : BaseEntity, IComparable<ReviewEntity> 
+    public class ReviewEntity : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public Guid Id { get; private set; }
-
         [Column("created_at")]
         public DateTime CreatedAt { get; private set; }
 
@@ -31,8 +27,6 @@ namespace Core.Entities
         [Column("user_id")]
         public Guid UserId { get; private set; }
 
-        [Column("active")]
-        public bool Active { get; private set; }
 
         public int CompareTo(ReviewEntity? other)
         {
@@ -49,7 +43,6 @@ namespace Core.Entities
             Reported = (bool)row["reported"];
             Rating = Convert.ToInt32(row["rating"]);
             UserId = Guid.Parse((string)row["user_id"]);
-            Active = (bool)row["active"];
         }
 
         public ReviewEntity(ReviewViewModel viewModel)

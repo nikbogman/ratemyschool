@@ -4,7 +4,82 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to RateMySchool</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<main>
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Browse High schools</h1>
+                <p class="lead text-body-secondary">
+                    Here are all of the rated and the reviewed high schools.
+                    By clicking on them, page with all reviews for the clicked school will be displayed as well as
+                    review with rating creation form.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                @foreach (var school in Model.Schools)
+                {
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                 xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c"></rect>
+                                <text x="50%" y="50%" fill="#eceeef"
+                                      dy=".3em">Thumbnail</text>
+                            </svg>
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <h2>@school.Name</h2>
+                                    <ul>
+                                        <li>N: @school.Number</li>
+                                        <li>City: @school.City</li>
+                                        <li>Type: @school.Type</li>
+                                        @foreach (var rank in school.Rank)
+                                        {
+                                            <li>@rank.Key rank: @(rank.Value == 0 ? "None" : rank.Value)</li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="stars" id="school-stars-@school.Id"> </div>
+                                    <a asp-page="/Details/@school.Type.ToString()" asp-route-id="@school.Id"
+                                       class="btn btn-primary">View Reviews</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+</main>
+
+<script>
+    var modelSchools = @Html.Raw(Json.Serialize(Model.Schools));
+
+    modelSchools.forEach(school => {
+
+        const schoolStars = document.getElementById(`school-stars-${school["id"]}`);
+        var rating = school["rating"];
+
+        var fullStars = Math.floor(rating);
+        var hasHalfStar = rating % 1 !== 0;
+
+        for (var i = 0; i < fullStars; i++) {
+            const star = document.createElement('span');
+            star.classList.add('fa', 'fa-star', 'star', 'checked');
+            schoolStars.appendChild(star);
+        }
+
+        if (hasHalfStar) {
+            const star = document.createElement('span');
+            star.classList.add('fa', 'fa-star-half', 'star', 'checked');
+            schoolStars.appendChild(star);
+        }
+    });
+</script>

@@ -3,7 +3,7 @@ using Core.Managers;
 using DAL.Repositories;
 using WinFormsApp.Forms;
 using WinFormsApp;
-using Core.Managers.FeatureManagers;
+using Core.FeatureManagers;
 
 namespace WinFormsApp.TabPages
 {
@@ -34,11 +34,11 @@ namespace WinFormsApp.TabPages
                 {
                     throw new Exception("Row with school has to be selected in order to delete it");
                 }
-                var langSchool = (ReviewEntity)dataBoundItem;
-                _reviewManager.DeleteOne(langSchool.Id);
-                var langSchoolDataSource = (List<ReviewEntity>)dataGridView.DataSource;
-                langSchoolDataSource.Remove(langSchool);
-                dataGridView.Load(langSchoolDataSource);
+                var review = (ReviewEntity)dataBoundItem;
+                _reviewManager.DeleteOne(review.Id);
+                var reviewDataSource = (List<ReviewEntity>)dataGridView.DataSource;
+                reviewDataSource.Remove(review);
+                dataGridView.Load(reviewDataSource);
             }
             catch (Exception ex)
             {
@@ -75,16 +75,16 @@ namespace WinFormsApp.TabPages
                 {
                     throw new Exception("Value needs to be provided for search filtering");
                 }
-                var users = SearchFilterManager.Filter(
+                var reviews = SearchFilterService.Filter(
                     unfiltered: (IEnumerable<ReviewEntity>)dataGridView.DataSource,
                     propertyName: filterPropertyComboBox.Text,
                     searchValue
                 );
-                if (users == Enumerable.Empty<ReviewEntity>())
+                if (reviews == Enumerable.Empty<ReviewEntity>())
                 {
-                    throw new Exception("");
+                    throw new Exception("There were no reviews found for this search");
                 }
-                dataGridView.Load(users);
+                dataGridView.Load(reviews);
             }
             catch (Exception ex)
             {

@@ -3,8 +3,9 @@ using WinFormsApp.Forms.SchoolForms;
 using WinFormsApp;
 using Core.Entities.SchoolEntities;
 using Core.Managers.SchoolManagers;
-using Core.Managers.FeatureManagers;
 using DAL.Repositories.SchoolRepositories;
+using Core.FeatureManagers;
+using Core.Interfaces.RepositoryInterfaces;
 
 namespace WinFormsApp.TabPages
 {
@@ -240,38 +241,38 @@ namespace WinFormsApp.TabPages
                 switch (filterComboBox.SelectedItem)
                 {
                     case SchoolType.Language:
-                        var langSchools = SearchFilterManager.Filter(
+                        var langSchools = SearchFilterService.Filter(
                             unfiltered: (IEnumerable<LanguageSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,
                             searchValue
                         );
                         if (langSchools == Enumerable.Empty<LanguageSchoolEntity>())
                         {
-                            throw new Exception("");
+                            throw new Exception("There were no language schools found for this search");
                         }
                         dataGridView.Load(langSchools);
                         break;
                     case SchoolType.STEM:
-                        var stemSchools = SearchFilterManager.Filter(
+                        var stemSchools = SearchFilterService.Filter(
                             unfiltered: (IEnumerable<STEMSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,
                             searchValue
                         );
                         if (stemSchools == Enumerable.Empty<STEMSchoolEntity>())
                         {
-                            throw new Exception("");
+                            throw new Exception("There were no specialized schools found for this search");
                         }
                         dataGridView.Load(stemSchools);
                         break;
                     case SchoolType.Specialized:
-                        var specSchools = SearchFilterManager.Filter(
+                        var specSchools = SearchFilterService.Filter(
                             unfiltered: (IEnumerable<SpecializedSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,
                             searchValue
                         );
                         if (specSchools == Enumerable.Empty<SpecializedSchoolEntity>())
                         {
-                            throw new Exception("");
+                            throw new Exception("There were no stem schools found for this search");
                         }
                         dataGridView.Load(specSchools);
                         break;

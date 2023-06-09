@@ -1,115 +1,71 @@
 ﻿using Core.Entities;
 using Core.Exceptions;
-using Core.Interfaces;
+using Core.Interfaces.RepositoryInterfaces;
 using System.Diagnostics;
+using Core.Interfaces;
 
 namespace Core.Managers
 {
-    public class BaseManager<EntityT, ViewModelT> 
-        where EntityT : BaseEntity 
+    public class BaseManager<EntityT, ViewModelT>
+        where EntityT : BaseEntity
         where ViewModelT : IViewModel
     {
         private readonly IRepository<EntityT> _repository;
-        protected virtual IRepository<EntityT> getRepository() { return _repository; }
+        protected virtual IRepository<EntityT> Repository { get => _repository; }
 
 
         protected readonly string _entityName = typeof(EntityT).Name;
         public BaseManager(IRepository<EntityT> repository) { _repository = repository; }
-        
+
 
         public virtual EntityT CreateOne(ViewModelT viewModel)
         {
-            try
+            ViewModelT validViewModel = viewModelParser(viewModel);
+            EntityT entity = (EntityT)Activator.CreateInstance(typeof(EntityT), validViewModel)!;
+            entity.GenerateId();
+            if (!_repository.Insert(entity))
             {
-                ViewModelT validViewModel = viewModelParser(viewModel);
-                EntityT entity = (EntityT)Activator.CreateInstance(typeof(EntityT), validViewModel)!;
-                entity.GenerateId();
-                if (!_repository.Insert(entity))
-                {
-                    throw new Exception("");
-                }
-                return entity;
+                throw new Exception($"Something went wrong while inserting {_entityName}");
             }
-            catch (DataAccessException ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw new InternalServerException(ex);
-            }
-            catch (Exception) { throw; }
+            return entity;
         }
 
         public virtual IEnumerable<EntityT> GetAll()
         {
-            try
-            {
-                return _repository.SelectAll();
-            }
-            catch (DataAccessException ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw new InternalServerException(ex);
-            }
-            catch (Exception) { throw; }
+            return _repository.SelectAll();
         }
 
         public virtual EntityT GetOneById(Guid id)
         {
-            try
+            EntityT? entity = _repository.SelectOne(id);
+            if (entity == null)
             {
-                EntityT? entity = _repository.SelectOne(id);
-                if (entity == null)
-                {
-                    throw new NotFoundException();
-                }
-                return entity;
+                throw new NotFoundException($"{_entityName} with id:{id} was not found");
             }
-            catch (DataAccessException ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw new InternalServerException(ex);
-            }
-            catch (Exception) { throw; }
+            return entity;
         }
 
         public virtual void DeleteOne(Guid id)
         {
-            try
+            if (!_repository.Delete(id))
             {
-                if (!_repository.Delete(id))
-                {
-                    throw new NotFoundException();
-                }
-                return;
+                throw new NotFoundException($"{_entityName} with id:{id} was not found in order to be deleted");
             }
-            catch (DataAccessException ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw new InternalServerException(ex);
-            }
-            catch (Exception) { throw; }
+            return;
         }
 
         public virtual EntityT UpdateOne(Guid id, ViewModelT viewModel)
         {
-            try
+            ViewModelT validViewModel = viewModelParser(viewModel);
+            EntityT entity = (EntityT)Activator.CreateInstance(typeof(EntityT), validViewModel)!;
+            entity.SetId(id);
+            if (!_repository.Update(entity))
             {
-                ViewModelT validViewModel = viewModelParser(viewModel);
-                EntityT entity = (EntityT)Activator.CreateInstance(typeof(EntityT), validViewModel)!;
-                entity.SetId(id);
-                if (!_repository.Update(entity))
-                {
-                    throw new NotFoundException();
-                }
-                return entity;
+                throw new NotFoundException($"{_entityName} with id:{id} was not found in order to be updated");
             }
-            catch (DataAccessException ex)
-            {
-                Debug.WriteLine(ex.Message);
-                throw new InternalServerException(ex);
-            }
-            catch (Exception) { throw; }
+            return entity;
         }
 
-        protected virtual ViewModelT viewModelParser(ViewModelT viewModel) { return viewModel; }
+        public virtual ViewModelT viewModelParser(ViewModelT viewModel) { return viewModel; }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Core.Entities;
-using Core.Interfaces;
+using Core.Interfaces.RepositoryInterfaces;
 using Core.ViewModels;
 
 namespace Core.Managers
 {
-    public class ReportManager: BaseManager<ReportEntity, ReportViewModel>
+    public class ReportManager : BaseManager<ReportEntity, ReportViewModel>
     {
-        public ReportManager(IReportRepository repository): base(repository) {  }
+        public ReportManager(IRepository<ReportEntity> repository): base(repository) {  }
     }
 }

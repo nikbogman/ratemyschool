@@ -10,7 +10,7 @@ namespace Core.ViewModels
         public string Content { get; set; }
 
         [Required(ErrorMessage = "Rating of review shoud be provided for creation")]
-        [Range(0, 5)]
+        [Range(1, 5)]
         public int Rating { get; set; }
 
         public Guid SchoolId { get; set; }

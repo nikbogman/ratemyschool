@@ -1,6 +1,6 @@
 using Core.Entities.SchoolEntities;
 using Core.Exceptions;
-using Core.Interfaces;
+using Core.Interfaces.RepositoryInterfaces;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using System.Data;
@@ -96,15 +96,6 @@ namespace DAL.Repositories.SchoolRepositories
             MySqlConnection connection = new(_connectionString);
             try
             {
-                string[] parentColumnNames = _parentMapper.GetColumnNames();
-                string parentColumns = string.Join(", ", parentColumnNames);
-                string parentValues = string.Join(", ", parentColumnNames.Select(c => "@" + c));
-
-                string[] columnNames = _childMapper.GetColumnNames();
-                string columns = string.Join(", ", columnNames);
-                string values = string.Join(", ", columnNames.Select(c => "@" + c));
-
-
                 Dictionary<string, string> parentMapStr = _parentMapper.GetCommandTextMapStrings();
                 Dictionary<string, string> childMapStr = _childMapper.GetCommandTextMapStrings();
 

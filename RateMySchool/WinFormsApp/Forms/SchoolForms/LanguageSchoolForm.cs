@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WinFormsApp.Forms.SchoolForms
 {
-    public partial class LanguageSchoolForm : Form, ICRUDFrom<LanguageSchoolEntity>
+    public partial class LanguageSchoolForm : Form
     {
         private readonly LanguageSchoolManager _manager;
         public LanguageSchoolEntity Data { get; set; }
@@ -41,7 +41,7 @@ namespace WinFormsApp.Forms.SchoolForms
                     return;
                 }
 
-                Data = _manager.CreateOne(viewModel);
+                Data = (LanguageSchoolEntity)_manager.CreateOne(viewModel);
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -90,7 +90,7 @@ namespace WinFormsApp.Forms.SchoolForms
                     return;
                 }
 
-                Data = _manager.UpdateOne((Guid)_id!, viewModel);
+                Data = (LanguageSchoolEntity)_manager.UpdateOne((Guid)_id!, viewModel);
                 DialogResult = DialogResult.OK;
                 Close();
             }
@@ -125,11 +125,8 @@ namespace WinFormsApp.Forms.SchoolForms
 
             viewStatsBtn.Visible = true;
             execBtn.Text = "Close";
-            execBtn.Click += closeOnClick;
+            execBtn.Click += delegate (object sender, EventArgs e) { Close(); };
         }
-        private void closeOnClick(object sender, EventArgs e)
-        {
-            Close();
-        }
+        
     }
 }

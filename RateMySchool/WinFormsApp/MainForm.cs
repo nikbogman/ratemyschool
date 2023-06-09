@@ -39,13 +39,6 @@ namespace WinFormsApp
             ShowPage(schoolTabPage);
         }
 
-        private void userTabRedirectButton_Click(object sender, EventArgs e)
-        {
-            UsersTabPage userTabPage = new();
-            userTabPage.PreloadPage();
-            ShowPage(userTabPage);
-        }
-
         private void reviewTabRedirectButton_Click(object sender, EventArgs e)
         {
             ReviewsTabPage reviewTabPage = new();

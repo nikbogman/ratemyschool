@@ -18,14 +18,9 @@ namespace WinFormsApp
             dataGridView.AutoGenerateColumns = true;
             if (dataSrc is IEnumerable<BaseSchoolEntity>)
             {
+                dataGridView.Columns["Rank"].Visible = false;
                 dataGridView.Columns["Type"].Visible = false;
-                dataGridView.Columns["TypeRank"].Visible = false;
-                dataGridView.Columns["OverallRank"].Visible = false;
                 dataGridView.Columns["Rating"].Visible = false;
-            }
-            else if (dataSrc is IEnumerable<UserEntity>)
-            {
-                dataGridView.Columns["Password"].Visible = false;
             }
             return dataGridView;
         }

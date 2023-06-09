@@ -32,7 +32,6 @@
             schoolTabRedirectButton = new Button();
             reviewTabRedirectButton = new Button();
             reportTabRedirectButton = new Button();
-            userTabRedirectButton = new Button();
             tabPagePanel = new Panel();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -40,15 +39,14 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            tableLayoutPanel1.ColumnCount = 4;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tableLayoutPanel1.ColumnCount = 3;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
             tableLayoutPanel1.Controls.Add(schoolTabRedirectButton, 0, 0);
             tableLayoutPanel1.Controls.Add(reviewTabRedirectButton, 1, 0);
             tableLayoutPanel1.Controls.Add(reportTabRedirectButton, 2, 0);
-            tableLayoutPanel1.Controls.Add(userTabRedirectButton, 3, 0);
             tableLayoutPanel1.Dock = DockStyle.Top;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
@@ -67,7 +65,7 @@
             schoolTabRedirectButton.Location = new Point(3, 2);
             schoolTabRedirectButton.Margin = new Padding(3, 2, 3, 2);
             schoolTabRedirectButton.Name = "schoolTabRedirectButton";
-            schoolTabRedirectButton.Size = new Size(200, 41);
+            schoolTabRedirectButton.Size = new Size(268, 41);
             schoolTabRedirectButton.TabIndex = 0;
             schoolTabRedirectButton.Text = "Schools";
             schoolTabRedirectButton.UseVisualStyleBackColor = false;
@@ -77,10 +75,10 @@
             // 
             reviewTabRedirectButton.AutoSize = true;
             reviewTabRedirectButton.Dock = DockStyle.Fill;
-            reviewTabRedirectButton.Location = new Point(209, 2);
+            reviewTabRedirectButton.Location = new Point(277, 2);
             reviewTabRedirectButton.Margin = new Padding(3, 2, 3, 2);
             reviewTabRedirectButton.Name = "reviewTabRedirectButton";
-            reviewTabRedirectButton.Size = new Size(200, 41);
+            reviewTabRedirectButton.Size = new Size(268, 41);
             reviewTabRedirectButton.TabIndex = 1;
             reviewTabRedirectButton.Text = "Reviews";
             reviewTabRedirectButton.UseVisualStyleBackColor = true;
@@ -90,27 +88,14 @@
             // 
             reportTabRedirectButton.AutoSize = true;
             reportTabRedirectButton.Dock = DockStyle.Fill;
-            reportTabRedirectButton.Location = new Point(415, 2);
+            reportTabRedirectButton.Location = new Point(551, 2);
             reportTabRedirectButton.Margin = new Padding(3, 2, 3, 2);
             reportTabRedirectButton.Name = "reportTabRedirectButton";
-            reportTabRedirectButton.Size = new Size(200, 41);
+            reportTabRedirectButton.Size = new Size(271, 41);
             reportTabRedirectButton.TabIndex = 2;
             reportTabRedirectButton.Text = "Report";
             reportTabRedirectButton.UseVisualStyleBackColor = true;
             reportTabRedirectButton.Click += reportTabRedirectButton_Click;
-            // 
-            // userTabRedirectButton
-            // 
-            userTabRedirectButton.AutoSize = true;
-            userTabRedirectButton.Dock = DockStyle.Fill;
-            userTabRedirectButton.Location = new Point(621, 2);
-            userTabRedirectButton.Margin = new Padding(3, 2, 3, 2);
-            userTabRedirectButton.Name = "userTabRedirectButton";
-            userTabRedirectButton.Size = new Size(201, 41);
-            userTabRedirectButton.TabIndex = 3;
-            userTabRedirectButton.Text = "User";
-            userTabRedirectButton.UseVisualStyleBackColor = true;
-            userTabRedirectButton.Click += userTabRedirectButton_Click;
             // 
             // tabPagePanel
             // 
@@ -143,7 +128,6 @@
         private Button schoolTabRedirectButton;
         private Button reviewTabRedirectButton;
         private Button reportTabRedirectButton;
-        private Button userTabRedirectButton;
         private Panel tabPagePanel;
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Core.Entities.SchoolEntities;
-using Core.Interfaces;
+using Core.Interfaces.RepositoryInterfaces;
 
 namespace DAL.Repositories.SchoolRepositories
 {
-    public class SpecializedSchoolRepository : AbstractSchoolRepository<SpecializedSchoolEntity>, ISpecializedSchoolRepository
+    public class SpecializedSchoolRepository : AbstractSchoolRepository<SpecializedSchoolEntity>, IRepository<SpecializedSchoolEntity>
     {
         public SpecializedSchoolRepository(string connectionString) : base(connectionString) { }
     }

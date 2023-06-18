@@ -8,7 +8,7 @@ using Core.ViewModels.SchoolViewModels;
 namespace Core.Entities.SchoolEntities
 {
     [Table("school")]
-    public class BaseSchoolEntity : BaseEntity
+    public class BaseSchoolEntity : BaseEntity, ISchoolEntity
     {
         [Column("name")]
         public string Name { get; private set; }
@@ -22,8 +22,7 @@ namespace Core.Entities.SchoolEntities
         [Column("type")]
         public SchoolType Type { get; protected set; }
 
-        public float Rating { get; set; }
-        public Dictionary<string, int> Rank { get; set; }
+        public SchoolStatistic Statistic { get; protected set; }
 
         public BaseSchoolEntity(DataRow row)
         {
@@ -32,7 +31,10 @@ namespace Core.Entities.SchoolEntities
             City = (string)row["city"];
             Number = (int)row["number"];
             Type = row.GetEnumValue<SchoolType>("type");
-            Rank = new Dictionary<string, int>();
+            Statistic = new()
+            {
+                Rank = new(),
+            };
         }
 
         public BaseSchoolEntity(BaseSchoolViewModel viewModel)
@@ -40,6 +42,11 @@ namespace Core.Entities.SchoolEntities
             Name = viewModel.Name;
             City = viewModel.City;
             Number = viewModel.Number;
+        }
+
+        public void SetStatistics(SchoolStatistic result)
+        {
+            this.Statistic = result;
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Core.Managers
 {
-    public class ReviewManager : BaseManager<ReviewEntity, ReviewViewModel>
+    public class ReviewManager : Manager<ReviewEntity, ReviewViewModel>
     {
         public ReviewManager(IReviewRepository repository) : base(repository) { }
 

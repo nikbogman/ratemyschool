@@ -2,6 +2,7 @@
 using Core.FeatureManagers;
 using Core.Interfaces.RepositoryInterfaces;
 using Core.Managers;
+using Core.ViewModels;
 using DAL;
 using DAL.Repositories;
 using WinFormsApp.Forms;
@@ -10,13 +11,13 @@ namespace WinFormsApp.TabPages
 {
     public partial class ReportsTabPage : UserControl
     {
-        const string connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
+        const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly ReviewManager _reviewManager;
-        private readonly ReportManager _manager;
+        private readonly Manager<ReportEntity, ReportViewModel> _manager;
         public ReportsTabPage()
         {
             IReviewRepository reviewRepository = new ReviewRepository(connectionString);
-            IRepository<ReportEntity> reportRepository = new BaseRepository<ReportEntity>(connectionString);
+            IRepository<ReportEntity> reportRepository = new Repository<ReportEntity>(connectionString);
             _reviewManager = new(reviewRepository);
             _manager = new(reportRepository);
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace WinFormsApp.TabPages
 
         public void PreloadPage()
         {
-            filterPropertyComboBox.LoadPropsFromType(typeof(ReportEntity), x => x != "CreatedAt");
+            filterPropertyComboBox.LoadPropsFromType(typeof(ReportEntity), x => x != "ReportedAt");
             dataGridView.Load(_manager.GetAll());
         }
 

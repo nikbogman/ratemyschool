@@ -1,7 +1,6 @@
 using Core.Entities.SchoolEntities;
 using Core.Entities;
 using Core.Interfaces.RepositoryInterfaces;
-using Core.Managers.SchoolManagers;
 using Core.Managers;
 using Core.Services.StatisticServices;
 using Core.Services;
@@ -11,22 +10,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using Core.Exceptions;
 using Microsoft.Extensions.Logging;
+using Core.ViewModels.SchoolViewModels;
 
 namespace WebApp.Pages.Details
 {
     public class STEMModel : PageModel
     {
         private readonly ILogger<STEMModel> _logger;
-        private readonly STEMSchoolManager _langSchoolManager;
+        private readonly Manager<STEMSchoolEntity, STEMSchoolViewModel> _schoolManager;
         private readonly ReviewManager _reviewManager;
-        private readonly TypeRankingService _ratingStatisticService;
+        private readonly RankingService _rankingService;
 
-        public STEMModel(ILogger<STEMModel> logger, IReviewRepository reviewrepo, IRepository<STEMSchoolEntity> langrepo)
+        public STEMModel(ILogger<STEMModel> logger, IReviewRepository reviewRepo, IRepository<STEMSchoolEntity> stemRepo)
         {
             _logger = logger;
-            _reviewManager = new(reviewrepo);
-            _langSchoolManager = new(langrepo);
-            _ratingStatisticService = new(reviewrepo, new CompareByRatingInDescendingOrder());
+            _reviewManager = new(reviewRepo);
+            _schoolManager = new(stemRepo);
+            _rankingService = new(
+               reviewRepo,
+               new CompareByRatingInDescendingOrder(),
+               new TypeRankingCalculator()
+           ); ;
         }
 
         public STEMSchoolEntity School { get; set; }
@@ -39,8 +43,8 @@ namespace WebApp.Pages.Details
         {
             try
             {
-                STEMSchoolEntity schoolToLoad = _langSchoolManager.GetOneById(id);
-                School = (STEMSchoolEntity)_ratingStatisticService.LoadRanks(new[] { schoolToLoad }).First();
+                STEMSchoolEntity schoolToLoad = _schoolManager.GetOneById(id);
+                School = (STEMSchoolEntity)_rankingService.LoadRanks(new[] { schoolToLoad }).First();
                 Reviews = _reviewManager.GetAllBySchoolId(id).Where(review => review.Reported == false);
                 return Page();
             }
@@ -66,8 +70,8 @@ namespace WebApp.Pages.Details
 
                 if (!ModelState.IsValid)
                 {
-                    STEMSchoolEntity schoolToLoad = _langSchoolManager.GetOneById(id);
-                    School = (STEMSchoolEntity)_ratingStatisticService.LoadRanks(new[] { schoolToLoad }).First();
+                    STEMSchoolEntity schoolToLoad = _schoolManager.GetOneById(id);
+                    School = (STEMSchoolEntity)_rankingService.LoadRanks(new[] { schoolToLoad }).First();
                     Reviews = _reviewManager.GetAllBySchoolId(id).Where(review => review.Reported == false);
                     return Page();
                 }

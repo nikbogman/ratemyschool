@@ -27,13 +27,6 @@ namespace Core.Entities
         [Column("user_id")]
         public Guid UserId { get; private set; }
 
-
-        public int CompareTo(ReviewEntity? other)
-        {
-            if (other == null) return 0;
-            return DateTime.Compare(this.CreatedAt, other.CreatedAt);
-        }
-
         public ReviewEntity(DataRow row)
         {
             Id = Guid.Parse((string)row["id"]);

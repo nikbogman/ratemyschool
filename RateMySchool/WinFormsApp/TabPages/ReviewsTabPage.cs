@@ -9,7 +9,7 @@ namespace WinFormsApp.TabPages
 {
     public partial class ReviewsTabPage : UserControl
     {
-        const string connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
+        const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly ReviewManager _reviewManager;
 
         public ReviewsTabPage()

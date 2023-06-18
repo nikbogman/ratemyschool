@@ -1,5 +1,5 @@
 ﻿using Core.Entities.SchoolEntities;
-using Core.Managers.SchoolManagers;
+using Core.Managers;
 using Core.ViewModels.SchoolViewModels;
 using System.ComponentModel.DataAnnotations;
 using WinFormsApp;
@@ -8,11 +8,11 @@ namespace WinFormsApp.Forms.SchoolForms
 {
     public partial class STEMSchoolForm : Form
     {
-        private readonly STEMSchoolManager _manager;
+        private readonly Manager<STEMSchoolEntity, STEMSchoolViewModel> _manager;
         public STEMSchoolEntity Data { get; set; }
 
         // CREATE
-        public STEMSchoolForm(STEMSchoolManager manager)
+        public STEMSchoolForm(Manager<STEMSchoolEntity, STEMSchoolViewModel> manager)
         {
             _manager = manager;
             InitializeComponent();
@@ -54,7 +54,7 @@ namespace WinFormsApp.Forms.SchoolForms
 
         // UPDATE
         private readonly Guid? _id;
-        public STEMSchoolForm(STEMSchoolManager manager, STEMSchoolEntity data)
+        public STEMSchoolForm(Manager<STEMSchoolEntity, STEMSchoolViewModel> manager, STEMSchoolEntity data)
         {
             _manager = manager;
             InitializeComponent();

@@ -9,10 +9,6 @@ namespace Core.Entities
     [Table("report")]
     public class ReportEntity : BaseEntity
     {
-        [Key]
-        [Column("id")]
-        public Guid Id { get; private set; }
-
         [Column("reported_at")]
         public DateTime ReportedAt { get; private set; }
 

@@ -4,7 +4,7 @@ using Core.Entities;
 
 namespace Tests.MockRepositories
 {
-    public class MockRepository<EntityT>: IRepository<EntityT> where EntityT : BaseEntity, IEntity
+    public class MockRepository<EntityT>: IRepository<EntityT> where EntityT : BaseEntity
     {
         protected readonly List<EntityT> _mockData = new();
 

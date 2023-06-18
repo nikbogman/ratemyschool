@@ -1,7 +1,7 @@
 ﻿using Core.Entities.SchoolEntities;
 using Core.Exceptions;
 using Core.Interfaces.RepositoryInterfaces;
-using Core.Managers.SchoolManagers;
+using Core.Managers;
 using Core.ViewModels.SchoolViewModels;
 using Tests.MockRepositories;
 

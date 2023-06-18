@@ -12,7 +12,7 @@ namespace WebApp.Pages.CreateReport
 {
     public class IndexModel : PageModel
     {
-        private readonly ReportManager _manager;
+        private readonly Manager<ReportEntity, ReportViewModel> _manager;
         private readonly ReviewManager _reviewManager;
 
 

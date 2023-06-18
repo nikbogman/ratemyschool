@@ -1,7 +1,6 @@
 using Core.Entities.SchoolEntities;
 using Core.Entities;
 using Core.Interfaces.RepositoryInterfaces;
-using Core.Managers.SchoolManagers;
 using Core.Managers;
 using Core.Services.StatisticServices;
 using Core.Services;
@@ -10,22 +9,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using Core.Exceptions;
+using Core.ViewModels.SchoolViewModels;
 
 namespace WebApp.Pages.Details
 {
     public class SpecializedModel : PageModel
     {
         private readonly ILogger<SpecializedModel> _logger;
-        private readonly SpecializedSchoolManager _langSchoolManager;
+        private readonly Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> _schoolManager;
         private readonly ReviewManager _reviewManager;
-        private readonly TypeRankingService _ratingStatisticService;
+        private readonly RankingService _rankingService;
 
-        public SpecializedModel(ILogger<SpecializedModel> logger, IReviewRepository reviewrepo, IRepository<SpecializedSchoolEntity> langrepo)
+        public SpecializedModel(ILogger<SpecializedModel> logger, IReviewRepository reviewRepo, IRepository<SpecializedSchoolEntity> specRepo)
         {
             _logger = logger;
-            _reviewManager = new(reviewrepo);
-            _langSchoolManager = new(langrepo);
-            _ratingStatisticService = new(reviewrepo, new CompareByRatingInDescendingOrder());
+            _reviewManager = new(reviewRepo);
+            _schoolManager = new(specRepo);
+            _rankingService = new(
+                reviewRepo,
+                new CompareByRatingInDescendingOrder(),
+                new TypeRankingCalculator()
+            ); ;
         }
 
         public SpecializedSchoolEntity School { get; set; }
@@ -38,8 +42,8 @@ namespace WebApp.Pages.Details
         {
             try
             {
-                SpecializedSchoolEntity schoolToLoad = _langSchoolManager.GetOneById(id);
-                School = (SpecializedSchoolEntity)_ratingStatisticService.LoadRanks(new[] { schoolToLoad }).First();
+                SpecializedSchoolEntity schoolToLoad = _schoolManager.GetOneById(id);
+                School = (SpecializedSchoolEntity)_rankingService.LoadRanks(new[] { schoolToLoad }).First();
                 Reviews = _reviewManager.GetAllBySchoolId(id).Where(review => review.Reported == false);
                 return Page();
             }
@@ -66,8 +70,8 @@ namespace WebApp.Pages.Details
 
                 if (!ModelState.IsValid)
                 {
-                    SpecializedSchoolEntity schoolToLoad = _langSchoolManager.GetOneById(id);
-                    School = (SpecializedSchoolEntity)_ratingStatisticService.LoadRanks(new[] { schoolToLoad }).First();
+                    SpecializedSchoolEntity schoolToLoad = _schoolManager.GetOneById(id);
+                    School = (SpecializedSchoolEntity)_rankingService.LoadRanks(new[] { schoolToLoad }).First();
                     Reviews = _reviewManager.GetAllBySchoolId(id).Where(review => review.Reported == false);
                     return Page();
                 }

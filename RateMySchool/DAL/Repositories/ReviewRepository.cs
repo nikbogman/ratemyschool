@@ -10,7 +10,7 @@ using System.Data;
 
 namespace DAL.Repositories
 {
-    public class ReviewRepository : BaseRepository<ReviewEntity>, IReviewRepository
+    public class ReviewRepository : Repository<ReviewEntity>, IReviewRepository
     {
         public ReviewRepository(string connectionString) : base(connectionString) { }
 

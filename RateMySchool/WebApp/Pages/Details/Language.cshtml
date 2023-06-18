@@ -13,7 +13,7 @@
                 <p class="card-text">City: <b>@Model.School.City</b></p>
                 <p class="card-text">Number: <b>@Model.School.Number</b></p>
                 <p class="card-text">Type: <b>@Model.School.Type school</b></p>
-                        @foreach (var rank in Model.School.Rank)
+                        @foreach (var rank in Model.School.Statistic.Rank)
                         {
                     <p class="card-text">@rank.Key Rank: <b>@rank.Value</b></p>
                         }
@@ -27,7 +27,18 @@
                         {
                     <p class="card-text">Score requirement: <b>@Model.School.ScoreRequirement</b></p>
                         }
-                <p class="card-text"> Rating: <span class="fa fa-star star checked"></span> <b>@Model.School.Rating</b></p>
+                <p class="card-text"> Rating: @{
+                        var fullStars = Math.Floor(Model.School.Statistic.Rating);
+                        var hasHalfStar = Model.School.Statistic.Rating % 1 != 0;
+                        for (int i = 0; i < fullStars; i++)
+                        {
+                            <span class="fa fa-star star checked"></span>
+                        }
+                        if (hasHalfStar)
+                        {
+                            <span class="fa fa-star-half star checked"></span>
+                        }
+                } <b>@Model.School.Statistic.Rating</b></p>
             </div>
         </div>
     </div>

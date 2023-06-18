@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace Core.Managers
 {
-    public class UserManager : BaseManager<UserEntity, UserViewModel>
+    public class UserManager : Manager<UserEntity, UserViewModel>
     {
         public UserManager(IUserRepository repository) : base(repository) { }
 

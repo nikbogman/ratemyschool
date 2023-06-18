@@ -40,14 +40,28 @@
                                         <li>N: @school.Number</li>
                                         <li>City: @school.City</li>
                                         <li>Type: @school.Type</li>
-                                        @foreach (var rank in school.Rank)
+                                        @foreach (var rank in school.Statistic.Rank)
                                         {
                                             <li>@rank.Key rank: @(rank.Value == 0 ? "None" : rank.Value)</li>
                                         }
                                     </ul>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <div class="stars" id="school-stars-@school.Id"> </div>
+                                    <p>
+                                        @{
+                                            var fullStars = Math.Floor(school.Statistic.Rating);
+                                            var hasHalfStar = school.Statistic.Rating % 1 != 0;
+                                            for (int i = 0; i < fullStars; i++)
+                                            {
+                                                <span class="fa fa-star star checked"></span>
+                                            }
+                                            if (hasHalfStar)
+                                            {
+                                                <span class="fa fa-star-half star checked"></span>
+                                            }
+                                        }
+                                        <b>@school.Statistic.Rating</b>
+                                    </p>
                                     <a asp-page="/Details/@school.Type.ToString()" asp-route-id="@school.Id"
                                        class="btn btn-primary">View Reviews</a>
                                 </div>
@@ -58,28 +72,3 @@
             </div>
         </div>
 </main>
-
-<script>
-    var modelSchools = @Html.Raw(Json.Serialize(Model.Schools));
-
-    modelSchools.forEach(school => {
-
-        const schoolStars = document.getElementById(`school-stars-${school["id"]}`);
-        var rating = school["rating"];
-
-        var fullStars = Math.floor(rating);
-        var hasHalfStar = rating % 1 !== 0;
-
-        for (var i = 0; i < fullStars; i++) {
-            const star = document.createElement('span');
-            star.classList.add('fa', 'fa-star', 'star', 'checked');
-            schoolStars.appendChild(star);
-        }
-
-        if (hasHalfStar) {
-            const star = document.createElement('span');
-            star.classList.add('fa', 'fa-star-half', 'star', 'checked');
-            schoolStars.appendChild(star);
-        }
-    });
-</script>

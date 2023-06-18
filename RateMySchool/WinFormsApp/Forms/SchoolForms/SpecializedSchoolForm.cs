@@ -1,5 +1,5 @@
 ﻿using Core.Entities.SchoolEntities;
-using Core.Managers.SchoolManagers;
+using Core.Managers;
 using Core.ViewModels.SchoolViewModels;
 using System;
 using System.Collections.Generic;
@@ -16,11 +16,11 @@ namespace WinFormsApp.Forms.SchoolForms
 {
     public partial class SpecializedSchoolForm : Form
     {
-        private readonly SpecializedSchoolManager _manager;
+        private readonly Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> _manager;
         public SpecializedSchoolEntity Data { get; set; }
 
         // CREATE
-        public SpecializedSchoolForm(SpecializedSchoolManager manager)
+        public SpecializedSchoolForm(Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> manager)
         {
             _manager = manager;
             InitializeComponent();
@@ -61,7 +61,7 @@ namespace WinFormsApp.Forms.SchoolForms
 
         // UPDATE
         private readonly Guid? _id;
-        public SpecializedSchoolForm(SpecializedSchoolManager manager, SpecializedSchoolEntity data)
+        public SpecializedSchoolForm(Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> manager, SpecializedSchoolEntity data)
         {
             _manager = manager;
             InitializeComponent();

@@ -2,7 +2,6 @@ using Core.Entities.SchoolEntities;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Interfaces.RepositoryInterfaces;
-using DAL.Repositories.SchoolRepositories;
 using DAL.Repositories;
 using DAL;
 using Microsoft.Extensions.DependencyInjection;

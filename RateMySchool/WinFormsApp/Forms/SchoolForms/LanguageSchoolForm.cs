@@ -1,5 +1,5 @@
 ﻿using Core.Entities.SchoolEntities;
-using Core.Managers.SchoolManagers;
+using Core.Managers;
 using Core.ViewModels;
 using Core.ViewModels.SchoolViewModels;
 using System.ComponentModel.DataAnnotations;

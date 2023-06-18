@@ -22,17 +22,6 @@ namespace DAL
                     .Select(p => $"{prefix}.{p.Name}=@{p.Name}")
             );
         }
-        public string[] GetColumnNames()
-        {
-            List<string> columnNames = new();
-            foreach (var property in _columns)
-            {
-                ColumnAttribute? column = property.GetCustomAttribute<ColumnAttribute>();
-                if (column == null || column.Name == null) continue;
-                columnNames.Add(column.Name);
-            }
-            return columnNames.ToArray();
-        }
 
         public void MapCommandParameters(MySqlParameterCollection commandParameters, T entity)
         {

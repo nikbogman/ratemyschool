@@ -1,7 +1,6 @@
 using Core.Entities.SchoolEntities;
 using Core.Entities;
 using Core.Interfaces.RepositoryInterfaces;
-using Core.Managers.SchoolManagers;
 using Core.Managers;
 using Core.Services.StatisticServices;
 using Core.Services;
@@ -18,14 +17,18 @@ namespace WebApp.Pages.Details
         private readonly ILogger<LanguageModel> _logger;
         private readonly LanguageSchoolManager _langSchoolManager;
         private readonly ReviewManager _reviewManager;
-        private readonly TypeRankingService _ratingStatisticService;
+        private readonly RankingService _rankingService;
 
-        public LanguageModel(ILogger<LanguageModel> logger, IReviewRepository reviewrepo, IRepository<LanguageSchoolEntity> langrepo)
+        public LanguageModel(ILogger<LanguageModel> logger, IReviewRepository reviewRepo, IRepository<LanguageSchoolEntity> langRepo)
         {
             _logger = logger;
-            _reviewManager = new(reviewrepo);
-            _langSchoolManager = new(langrepo);
-            _ratingStatisticService = new(reviewrepo, new CompareByRatingInDescendingOrder());
+            _reviewManager = new(reviewRepo);
+            _langSchoolManager = new(langRepo);
+            _rankingService  = new(
+                reviewRepo,
+                new CompareByRatingInDescendingOrder(),
+                new TypeRankingCalculator()
+            ); ;
         }
 
         public LanguageSchoolEntity School { get; set; }
@@ -39,7 +42,7 @@ namespace WebApp.Pages.Details
             try
             {
                 LanguageSchoolEntity schoolToLoad = _langSchoolManager.GetOneById(id);
-                School = (LanguageSchoolEntity)_ratingStatisticService.LoadRanks(new[] { schoolToLoad }).First();
+                School = (LanguageSchoolEntity)_rankingService.LoadRanks(new[] { schoolToLoad }).First();
                 Reviews = _reviewManager.GetAllBySchoolId(id).Where(review => review.Reported == false);
                 return Page();
             }
@@ -66,7 +69,7 @@ namespace WebApp.Pages.Details
                 if (!ModelState.IsValid)
                 {
                     LanguageSchoolEntity schoolToLoad = _langSchoolManager.GetOneById(id);
-                    School = (LanguageSchoolEntity)_ratingStatisticService.LoadRanks(new[] { schoolToLoad }).First();
+                    School = (LanguageSchoolEntity)_rankingService.LoadRanks(new[] { schoolToLoad }).First();
                     Reviews = _reviewManager.GetAllBySchoolId(id).Where(review => review.Reported == false);
                     return Page();
                 }

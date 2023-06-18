@@ -8,7 +8,7 @@ using System.Data;
 
 namespace DAL.Repositories
 {
-    public class UserRepository : BaseRepository<UserEntity>, IUserRepository
+    public class UserRepository : Repository<UserEntity>, IUserRepository
     {
         public UserRepository(string connectionString) : base(connectionString) { }
 

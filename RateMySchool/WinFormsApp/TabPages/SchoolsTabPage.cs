@@ -2,29 +2,30 @@
 using WinFormsApp.Forms.SchoolForms;
 using WinFormsApp;
 using Core.Entities.SchoolEntities;
-using Core.Managers.SchoolManagers;
-using DAL.Repositories.SchoolRepositories;
 using Core.FeatureManagers;
 using Core.Interfaces.RepositoryInterfaces;
+using Core.Managers;
+using Core.ViewModels.SchoolViewModels;
+using DAL.Repositories;
 
 namespace WinFormsApp.TabPages
 {
     public partial class SchoolsTabPage : UserControl
     {
-        const string connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
+        const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly LanguageSchoolManager _languageSchoolManager;
-        private readonly STEMSchoolManager _stemSchoolManager;
-        private readonly SpecializedSchoolManager _specSchoolManager;
+        private readonly Manager<STEMSchoolEntity, STEMSchoolViewModel> _stemSchoolManager;
+        private readonly Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> _specSchoolManager;
 
         public SchoolsTabPage()
         {
-            LanguageSchoolRepository languageSchoolRepositoty = new(connectionString);
+            IRepository<LanguageSchoolEntity> languageSchoolRepositoty = new SchoolRepository<LanguageSchoolEntity>(connectionString);
             _languageSchoolManager = new(languageSchoolRepositoty);
 
-            STEMSchoolRepository stemSchoolRepositoty = new(connectionString);
+            IRepository<STEMSchoolEntity> stemSchoolRepositoty = new SchoolRepository<STEMSchoolEntity>(connectionString);
             _stemSchoolManager = new(stemSchoolRepositoty);
 
-            SpecializedSchoolRepository specSchoolRepositoty = new(connectionString);
+            IRepository<SpecializedSchoolEntity> specSchoolRepositoty = new SchoolRepository<SpecializedSchoolEntity>(connectionString);
             _specSchoolManager = new(specSchoolRepositoty);
             InitializeComponent();
         }
@@ -241,6 +242,8 @@ namespace WinFormsApp.TabPages
                 switch (filterComboBox.SelectedItem)
                 {
                     case SchoolType.Language:
+                        dataGridView.Load(_languageSchoolManager.GetAll());
+
                         var langSchools = SearchFilterService.Filter(
                             unfiltered: (IEnumerable<LanguageSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,
@@ -253,6 +256,8 @@ namespace WinFormsApp.TabPages
                         dataGridView.Load(langSchools);
                         break;
                     case SchoolType.STEM:
+                        dataGridView.Load(_stemSchoolManager.GetAll());
+
                         var stemSchools = SearchFilterService.Filter(
                             unfiltered: (IEnumerable<STEMSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,
@@ -265,6 +270,8 @@ namespace WinFormsApp.TabPages
                         dataGridView.Load(stemSchools);
                         break;
                     case SchoolType.Specialized:
+                        dataGridView.Load(_specSchoolManager.GetAll());
+
                         var specSchools = SearchFilterService.Filter(
                             unfiltered: (IEnumerable<SpecializedSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,

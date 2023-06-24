@@ -43,17 +43,16 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 20F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 23F));
             tableLayoutPanel1.Controls.Add(schoolTabRedirectButton, 0, 0);
             tableLayoutPanel1.Controls.Add(reviewTabRedirectButton, 1, 0);
             tableLayoutPanel1.Controls.Add(reportTabRedirectButton, 2, 0);
             tableLayoutPanel1.Dock = DockStyle.Top;
             tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 1;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(825, 45);
+            tableLayoutPanel1.Size = new Size(943, 60);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // schoolTabRedirectButton
@@ -62,10 +61,9 @@
             schoolTabRedirectButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             schoolTabRedirectButton.BackColor = SystemColors.Window;
             schoolTabRedirectButton.Dock = DockStyle.Fill;
-            schoolTabRedirectButton.Location = new Point(3, 2);
-            schoolTabRedirectButton.Margin = new Padding(3, 2, 3, 2);
+            schoolTabRedirectButton.Location = new Point(3, 3);
             schoolTabRedirectButton.Name = "schoolTabRedirectButton";
-            schoolTabRedirectButton.Size = new Size(268, 41);
+            schoolTabRedirectButton.Size = new Size(308, 54);
             schoolTabRedirectButton.TabIndex = 0;
             schoolTabRedirectButton.Text = "Schools";
             schoolTabRedirectButton.UseVisualStyleBackColor = false;
@@ -75,10 +73,9 @@
             // 
             reviewTabRedirectButton.AutoSize = true;
             reviewTabRedirectButton.Dock = DockStyle.Fill;
-            reviewTabRedirectButton.Location = new Point(277, 2);
-            reviewTabRedirectButton.Margin = new Padding(3, 2, 3, 2);
+            reviewTabRedirectButton.Location = new Point(317, 3);
             reviewTabRedirectButton.Name = "reviewTabRedirectButton";
-            reviewTabRedirectButton.Size = new Size(268, 41);
+            reviewTabRedirectButton.Size = new Size(308, 54);
             reviewTabRedirectButton.TabIndex = 1;
             reviewTabRedirectButton.Text = "Reviews";
             reviewTabRedirectButton.UseVisualStyleBackColor = true;
@@ -88,10 +85,9 @@
             // 
             reportTabRedirectButton.AutoSize = true;
             reportTabRedirectButton.Dock = DockStyle.Fill;
-            reportTabRedirectButton.Location = new Point(551, 2);
-            reportTabRedirectButton.Margin = new Padding(3, 2, 3, 2);
+            reportTabRedirectButton.Location = new Point(631, 3);
             reportTabRedirectButton.Name = "reportTabRedirectButton";
-            reportTabRedirectButton.Size = new Size(271, 41);
+            reportTabRedirectButton.Size = new Size(309, 54);
             reportTabRedirectButton.TabIndex = 2;
             reportTabRedirectButton.Text = "Report";
             reportTabRedirectButton.UseVisualStyleBackColor = true;
@@ -101,19 +97,19 @@
             // 
             tabPagePanel.BackColor = SystemColors.Control;
             tabPagePanel.Dock = DockStyle.Fill;
-            tabPagePanel.Location = new Point(0, 45);
-            tabPagePanel.Margin = new Padding(3, 2, 3, 2);
+            tabPagePanel.Location = new Point(0, 60);
             tabPagePanel.Name = "tabPagePanel";
-            tabPagePanel.Size = new Size(825, 325);
+            tabPagePanel.Size = new Size(943, 433);
             tabPagePanel.TabIndex = 1;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(825, 370);
+            ClientSize = new Size(943, 493);
             Controls.Add(tabPagePanel);
             Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "MainForm";
             Text = "Home";
             Load += MainForm_Load;

@@ -1,8 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Data;
 using Core.Interfaces.RepositoryInterfaces;
-using Core.Interfaces;
-
 using Core.Exceptions;
 using Core.Entities;
 
@@ -32,10 +30,7 @@ namespace DAL
                 foreach (DataRow row in dataSet.Tables[0].Rows)
                 {
                     var entity = Activator.CreateInstance(typeof(EntityT), row);
-                    if (entity == null)
-                    {
-                        continue;
-                    }
+                    if (entity == null) { continue; }
                     entities.Add((EntityT)entity);
                 }
                 return entities;

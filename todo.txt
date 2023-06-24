@@ -1,0 +1,11 @@
+fix exception handling where needed:
+[] - Pages exception handling
+[] - Better naming of Pages
+[] - fix winforms floating design
+[] - add login form in winforms
+[] - add images input in winforms and display in Pages
+! - try to inherit pages and usercontrols where possible
+[] - switch to SQL instead of MySql package to help modularity
+[] - create action based viewModels
+[] - take a look into the calculation ranking:
+    maybe use builder pattern rather than just ingeritance

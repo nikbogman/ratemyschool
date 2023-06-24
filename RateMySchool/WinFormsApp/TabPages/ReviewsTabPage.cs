@@ -1,7 +1,7 @@
 ﻿using Core.Entities;
 using Core.Managers;
 using DAL.Repositories;
-using WinFormsApp.Forms;
+using WinFormsApp.Forms.NewFolder;
 using WinFormsApp;
 using Core.FeatureManagers;
 
@@ -9,7 +9,7 @@ namespace WinFormsApp.TabPages
 {
     public partial class ReviewsTabPage : UserControl
     {
-        const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
+        const string connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
         private readonly ReviewManager _reviewManager;
 
         public ReviewsTabPage()

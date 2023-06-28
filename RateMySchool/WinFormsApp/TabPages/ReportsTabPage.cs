@@ -6,6 +6,7 @@ using Core.ViewModels;
 using DAL;
 using DAL.Repositories;
 using WinFormsApp.Forms;
+using WinFormsApp.Forms.ReportForms;
 
 namespace WinFormsApp.TabPages
 {
@@ -60,7 +61,7 @@ namespace WinFormsApp.TabPages
                 {
                     throw new Exception("Row with school has to be selected in order to view its details");
                 }
-                ReportForm form = new((ReportEntity)dataBoundItem);
+                ViewReportForm form = new((ReportEntity)dataBoundItem);
                 form.Show();
             }
             catch (Exception ex)

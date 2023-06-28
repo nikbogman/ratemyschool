@@ -1,9 +1,11 @@
 ﻿using Core.Entities;
 using Core.Managers;
 using DAL.Repositories;
-using WinFormsApp.Forms.NewFolder;
+using WinFormsApp.Forms;
 using WinFormsApp;
 using Core.FeatureManagers;
+using WinFormsApp.Forms.BaseForms;
+using WinFormsApp.Forms.ReviewForms;
 
 namespace WinFormsApp.TabPages
 {
@@ -56,7 +58,7 @@ namespace WinFormsApp.TabPages
                 {
                     throw new Exception("Row with school has to be selected in order to view its details");
                 }
-                ReviewForm form = new((ReviewEntity)dataBoundItem);
+                ViewReviewForm form = new((ReviewEntity)dataBoundItem);
                 form.Show();
             }
             catch (Exception ex)

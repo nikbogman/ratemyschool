@@ -39,5 +39,22 @@ namespace WinFormsApp
             comboBox.SelectedIndex = 0;
             return dataSource;
         }
+
+
+        public static string ConvertCamelCaseToSenatnce(this string input)
+        {
+            List<string> words = new();
+            int wordStartIndex = 0;
+            for (int i = 1; i < input.Length; i++)
+            {
+                if (char.IsUpper(input[i]))
+                {
+                    words.Add(input[wordStartIndex..i]);
+                    wordStartIndex = i;
+                }
+            }
+            words.Add(input.Substring(wordStartIndex));
+            return string.Join(" ", words);
+        }
     }
 }

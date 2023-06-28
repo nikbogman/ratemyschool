@@ -1,5 +1,4 @@
 using WinFormsApp.Forms;
-using WinFormsApp.Forms.NewFolder;
 using WinFormsApp.TabPages;
 
 namespace WinFormsApp

@@ -1,6 +1,6 @@
-﻿namespace WinFormsApp.Forms.NewFolder
+﻿namespace WinFormsApp.Forms.ReportForms
 {
-    partial class ReviewForm
+    partial class ViewReportForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             SuspendLayout();
             // 
-            // ReviewForm
+            // ViewReportForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(265, 85);
-            Name = "ReviewForm";
-            Text = "ReviewForm";
+            ClientSize = new Size(437, 108);
+            Name = "ViewReportForm";
+            Text = "ViewReportForm";
             ResumeLayout(false);
         }
 

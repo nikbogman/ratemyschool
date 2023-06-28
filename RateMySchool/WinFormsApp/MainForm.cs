@@ -1,4 +1,3 @@
-using WinFormsApp.Forms;
 using WinFormsApp.TabPages;
 
 namespace WinFormsApp
@@ -11,6 +10,7 @@ namespace WinFormsApp
         {
             InitializeComponent();
         }
+
         private void ShowPage(UserControl page)
         {
             tabPagePanel.SuspendLayout();

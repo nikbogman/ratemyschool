@@ -7,6 +7,10 @@ namespace WinFormsApp.Forms.BaseForms
     {
         protected virtual Type EntityType => typeof(IEntity).GetType();
         public CreateEntityForm() : base() => Setup();
+
+
+
+        private Dictionary<string, Control> inputs = new();
         protected override void Setup()
         {
             ClearRowStyles();
@@ -56,10 +60,16 @@ namespace WinFormsApp.Forms.BaseForms
                 AddRow();
                 AddControl(label, 0, rowIndex);
                 AddControl(control, 1, rowIndex);
+                inputs.Add(prop.Name, control);
                 FormBorderStyle = FormBorderStyle.FixedSingle;
                 MaximizeBox = false;
                 rowIndex++;
             }
+        }
+
+        protected override void execBtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

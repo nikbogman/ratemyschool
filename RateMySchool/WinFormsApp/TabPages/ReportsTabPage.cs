@@ -6,13 +6,12 @@ using Core.ViewModels;
 using DAL;
 using DAL.Repositories;
 using WinFormsApp.Forms;
-using WinFormsApp.Forms.ReportForms;
 
 namespace WinFormsApp.TabPages
 {
     public partial class ReportsTabPage : UserControl
     {
-        const string connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
+        const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly ReviewManager _reviewManager;
         private readonly Manager<ReportEntity, ReportViewModel> _manager;
         public ReportsTabPage()
@@ -61,7 +60,7 @@ namespace WinFormsApp.TabPages
                 {
                     throw new Exception("Row with school has to be selected in order to view its details");
                 }
-                ViewReportForm form = new((ReportEntity)dataBoundItem);
+                ReportForm form = new((ReportEntity)dataBoundItem);
                 form.Show();
             }
             catch (Exception ex)

@@ -7,13 +7,12 @@ using Core.Interfaces.RepositoryInterfaces;
 using Core.Managers;
 using Core.ViewModels.SchoolViewModels;
 using DAL.Repositories;
-using WinFormsApp.Forms.SchoolForms.LanguageSchoolForms;
 
 namespace WinFormsApp.TabPages
 {
     public partial class SchoolsTabPage : UserControl
     {
-        const string connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
+        const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly LanguageSchoolManager _languageSchoolManager;
         private readonly Manager<STEMSchoolEntity, STEMSchoolViewModel> _stemSchoolManager;
         private readonly Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> _specSchoolManager;
@@ -47,10 +46,11 @@ namespace WinFormsApp.TabPages
                 switch (filterComboBox.SelectedItem)
                 {
                     case SchoolType.Language:
-                        CreateLanguageSchoolForm langForm = new();
-                        if (langForm.ShowDialog() == DialogResult.OK)
+                        LanguageSchoolForm langForm = new(_languageSchoolManager);
+                        if (langForm.ShowDialog() == DialogResult.OK && langForm.Data != null)
                         {
                             var dataSource = (List<LanguageSchoolEntity>)dataGridView.DataSource;
+                            dataSource.Add(langForm.Data);
                             dataGridView.Load(dataSource);
                         }
                         break;
@@ -96,20 +96,18 @@ namespace WinFormsApp.TabPages
                 {
                     case SchoolType.Language:
                         var langSchool = (LanguageSchoolEntity)dataBoundItem;
-                        //LanguageSchoolForm form = new(_languageSchoolManager, langSchool);
-                        UpdateLanguageSchoolForm form = new(langSchool);
-                        form.Show();
-                        //if (form.ShowDialog() == DialogResult.OK && form.Data != null)
-                        //{
-                        //    if (langSchool != form.Data)
-                        //    {
-                        //        var dataSource = (List<LanguageSchoolEntity>)dataGridView.DataSource;
-                        //        int idx = dataSource.IndexOf(langSchool);
-                        //        dataSource.RemoveAt(idx);
-                        //        dataSource.Insert(idx, form.Data);
-                        //        dataGridView.Load(dataSource);
-                        //    }
-                        //}
+                        LanguageSchoolForm form = new(_languageSchoolManager, langSchool);
+                        if (form.ShowDialog() == DialogResult.OK && form.Data != null)
+                        {
+                            if (langSchool != form.Data)
+                            {
+                                var dataSource = (List<LanguageSchoolEntity>)dataGridView.DataSource;
+                                int idx = dataSource.IndexOf(langSchool);
+                                dataSource.RemoveAt(idx);
+                                dataSource.Insert(idx, form.Data);
+                                dataGridView.Load(dataSource);
+                            }
+                        }
                         break;
                     case SchoolType.STEM:
                         var stemSchool = (STEMSchoolEntity)dataBoundItem;

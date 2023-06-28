@@ -4,14 +4,12 @@ using DAL.Repositories;
 using WinFormsApp.Forms;
 using WinFormsApp;
 using Core.FeatureManagers;
-using WinFormsApp.Forms.BaseForms;
-using WinFormsApp.Forms.ReviewForms;
 
 namespace WinFormsApp.TabPages
 {
     public partial class ReviewsTabPage : UserControl
     {
-        const string connectionString = "Server=localhost;Uid=root;Database=ratemyschool;Pwd=rootpass";
+        const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly ReviewManager _reviewManager;
 
         public ReviewsTabPage()
@@ -58,7 +56,7 @@ namespace WinFormsApp.TabPages
                 {
                     throw new Exception("Row with school has to be selected in order to view its details");
                 }
-                ViewReviewForm form = new((ReviewEntity)dataBoundItem);
+                ReviewForm form = new((ReviewEntity)dataBoundItem);
                 form.Show();
             }
             catch (Exception ex)

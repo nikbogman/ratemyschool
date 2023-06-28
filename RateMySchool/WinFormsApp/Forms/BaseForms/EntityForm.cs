@@ -30,6 +30,6 @@ namespace WinFormsApp.Forms.BaseForms
 
         protected virtual void Setup() => throw new NotImplementedException();
 
-        private void execBtn_Click(object sender, EventArgs e) => Close();
+        protected virtual void execBtn_Click(object sender, EventArgs e) => Close();
     }
 }

@@ -1,14 +1,15 @@
-using Core.Entities.SchoolEntities;
 using Core.Entities;
-using Core.Interfaces.RepositoryInterfaces;
 using Core.Managers;
 using Core.Services.StatisticServices;
 using Core.Services;
-using Core.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using Core.Exceptions;
+using Core.Managers.Schools;
+using Core.Entities.Schools;
+using Core.Interfaces.Repositories;
+using Core.Models;
 
 namespace WebApp.Pages.Details
 {
@@ -17,7 +18,7 @@ namespace WebApp.Pages.Details
         private readonly ILogger<LanguageModel> _logger;
         private readonly LanguageSchoolManager _langSchoolManager;
         private readonly ReviewManager _reviewManager;
-        private readonly RankingService _rankingService;
+        private readonly RankService _rankingService;
 
         public LanguageModel(ILogger<LanguageModel> logger, IReviewRepository reviewRepo, IRepository<LanguageSchoolEntity> langRepo)
         {
@@ -35,7 +36,7 @@ namespace WebApp.Pages.Details
         public IEnumerable<ReviewEntity> Reviews { get; set; }
 
         [BindProperty]
-        public ReviewViewModel ReviewViewModel { get; set; }
+        public ReviewModel ReviewViewModel { get; set; }
 
         public IActionResult OnGet(Guid id)
         {

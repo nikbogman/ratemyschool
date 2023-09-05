@@ -2,12 +2,12 @@ using DAL.Repositories;
 using Core.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Core.ViewModels;
 using Core.Exceptions;
 using Google.Protobuf.Collections;
 using System.Xml;
 using Mysqlx;
-using Core.Interfaces.RepositoryInterfaces;
+using Core.Models;
+using Core.Interfaces.Repositories;
 
 namespace WebApp.Pages.Auth
 {
@@ -16,7 +16,7 @@ namespace WebApp.Pages.Auth
         private readonly UserManager _manager;
 
         [BindProperty]
-        public UserViewModel UserViewModel { get; set; }
+        public UserModel UserViewModel { get; set; }
 
 
         public RegisterModel(IUserRepository repo) { _manager = new(repo); }

@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Entities.SchoolEntities;
+using Core.Entities.Schools;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,7 +16,7 @@ namespace WinFormsApp
             dataGridView.DataSource = null;
             dataGridView.DataSource = dataSrc;
             dataGridView.AutoGenerateColumns = true;
-            if (dataSrc is IEnumerable<BaseSchoolEntity>)
+            if (dataSrc is IEnumerable<SchoolEntity>)
             {
                 dataGridView.Columns["Statistic"].Visible = false;
             }

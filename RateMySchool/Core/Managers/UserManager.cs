@@ -1,13 +1,13 @@
-﻿using Core.Interfaces.RepositoryInterfaces;
-using Core.Entities;
-using Core.ViewModels;
+﻿using Core.Entities;
 using System.Text.RegularExpressions;
 using Core.Exceptions;
 using System.Diagnostics;
+using Core.Models;
+using Core.Interfaces.Repositories;
 
 namespace Core.Managers
 {
-    public class UserManager : Manager<UserEntity, UserViewModel>
+    public class UserManager : Manager<UserEntity, UserModel>
     {
         public UserManager(IUserRepository repository) : base(repository) { }
 
@@ -28,7 +28,7 @@ namespace Core.Managers
             return user;
         }
 
-        public override UserViewModel viewModelParser(UserViewModel viewModel)
+        public override UserModel viewModelParser(UserModel viewModel)
         {
             if (Repository.SelectOneByEmail(viewModel.Email) != null)
             {

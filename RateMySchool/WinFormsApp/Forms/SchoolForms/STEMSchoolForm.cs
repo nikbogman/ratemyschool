@@ -1,6 +1,6 @@
-﻿using Core.Entities.SchoolEntities;
+﻿using Core.Entities.Schools;
 using Core.Managers;
-using Core.ViewModels.SchoolViewModels;
+using Core.Models.Schools;
 using System.ComponentModel.DataAnnotations;
 using WinFormsApp;
 
@@ -8,11 +8,11 @@ namespace WinFormsApp.Forms.SchoolForms
 {
     public partial class STEMSchoolForm : Form
     {
-        private readonly Manager<STEMSchoolEntity, STEMSchoolViewModel> _manager;
-        public STEMSchoolEntity Data { get; set; }
+        private readonly Manager<ScienceSchoolEntity, ScienceSchoolModel> _manager;
+        public ScienceSchoolEntity Data { get; set; }
 
         // CREATE
-        public STEMSchoolForm(Manager<STEMSchoolEntity, STEMSchoolViewModel> manager)
+        public STEMSchoolForm(Manager<ScienceSchoolEntity, ScienceSchoolModel> manager)
         {
             _manager = manager;
             InitializeComponent();
@@ -23,7 +23,7 @@ namespace WinFormsApp.Forms.SchoolForms
         {
             try
             {
-                STEMSchoolViewModel viewModel = new()
+                ScienceSchoolModel viewModel = new()
                 {
                     Name = nameTextBox.Text,
                     City = cityTextBox.Text,
@@ -54,7 +54,7 @@ namespace WinFormsApp.Forms.SchoolForms
 
         // UPDATE
         private readonly Guid? _id;
-        public STEMSchoolForm(Manager<STEMSchoolEntity, STEMSchoolViewModel> manager, STEMSchoolEntity data)
+        public STEMSchoolForm(Manager<ScienceSchoolEntity, ScienceSchoolModel> manager, ScienceSchoolEntity data)
         {
             _manager = manager;
             InitializeComponent();
@@ -72,7 +72,7 @@ namespace WinFormsApp.Forms.SchoolForms
         {
             try
             {
-                STEMSchoolViewModel viewModel = new()
+                ScienceSchoolModel viewModel = new()
                 {
                     Name = nameTextBox.Text,
                     City = cityTextBox.Text,
@@ -101,7 +101,7 @@ namespace WinFormsApp.Forms.SchoolForms
         }
 
         // DETAILS
-        public STEMSchoolForm(STEMSchoolEntity data)
+        public STEMSchoolForm(ScienceSchoolEntity data)
         {
             InitializeComponent();
             nameTextBox.Text = data.Name;

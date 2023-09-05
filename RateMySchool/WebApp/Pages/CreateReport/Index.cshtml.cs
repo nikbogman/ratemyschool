@@ -1,8 +1,8 @@
 using Core.Entities;
 using Core.Exceptions;
-using Core.Interfaces.RepositoryInterfaces;
+using Core.Interfaces.Repositories;
 using Core.Managers;
-using Core.ViewModels;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.IO;
@@ -12,7 +12,7 @@ namespace WebApp.Pages.CreateReport
 {
     public class IndexModel : PageModel
     {
-        private readonly Manager<ReportEntity, ReportViewModel> _manager;
+        private readonly Manager<ReportEntity, ReportModel> _manager;
         private readonly ReviewManager _reviewManager;
 
 
@@ -23,7 +23,7 @@ namespace WebApp.Pages.CreateReport
         }
 
         [BindProperty]
-        public ReportViewModel ReportViewModel { get; set; }
+        public ReportModel ReportViewModel { get; set; }
 
         public IActionResult OnGet()
         {

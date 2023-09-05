@@ -1,13 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
-using Core.ViewModels;
-using Core.Interfaces;
+﻿using System.Data;
+using System.ComponentModel.DataAnnotations.Schema;
+using Core.Models;
 
 namespace Core.Entities
 {
     [Table("report")]
-    public class ReportEntity : BaseEntity
+    public class ReportEntity : Entity
     {
         [Column("reported_at")]
         public DateTime ReportedAt { get; private set; }
@@ -18,18 +16,17 @@ namespace Core.Entities
         [Column("review_id")]
         public Guid ReviewId { get; private set; }
 
-        public ReportEntity(DataRow row)
+        public ReportEntity(DataRow row) : base(row)
         {
-            Id = Guid.Parse((string)row["id"]);
             Reason = (string)row["reason"];
             ReportedAt = (DateTime)row["reported_at"];
             ReviewId = Guid.Parse((string)row["review_id"]);
         }
 
-        public ReportEntity(ReportViewModel viewModel)
+        public ReportEntity(ReportModel model) : base(model)
         {
-            Reason = viewModel.Reason;
-            ReviewId = viewModel.ReviewId;
+            Reason = model.Reason;
+            ReviewId = model.ReviewId;
         }
     }
 }

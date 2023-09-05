@@ -1,5 +1,5 @@
 ﻿using Core.Entities;
-using Core.Interfaces.RepositoryInterfaces;
+using Core.Interfaces.Repositories;
 
 namespace Tests.MockRepositories
 {

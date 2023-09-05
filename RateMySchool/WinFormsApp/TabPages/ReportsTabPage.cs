@@ -1,10 +1,9 @@
 ﻿using Core.Entities;
-using Core.FeatureManagers;
-using Core.Interfaces.RepositoryInterfaces;
+using Core.Interfaces.Repositories;
 using Core.Managers;
-using Core.ViewModels;
-using DAL;
-using DAL.Repositories;
+using Core.Models;
+using Core.Services;
+using DataAccess.Repositories;
 using WinFormsApp.Forms;
 
 namespace WinFormsApp.TabPages
@@ -13,7 +12,7 @@ namespace WinFormsApp.TabPages
     {
         const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly ReviewManager _reviewManager;
-        private readonly Manager<ReportEntity, ReportViewModel> _manager;
+        private readonly Manager<ReportEntity, ReportModel> _manager;
         public ReportsTabPage()
         {
             IReviewRepository reviewRepository = new ReviewRepository(connectionString);

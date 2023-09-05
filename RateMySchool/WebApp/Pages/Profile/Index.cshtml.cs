@@ -1,6 +1,6 @@
 using Core.Entities;
 using Core.Exceptions;
-using Core.Interfaces.RepositoryInterfaces;
+using Core.Interfaces.Repositories;
 using Core.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

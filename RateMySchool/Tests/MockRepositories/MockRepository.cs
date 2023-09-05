@@ -1,10 +1,10 @@
-﻿using Core.Interfaces.RepositoryInterfaces;
-using Core.Interfaces;
+﻿using Core.Interfaces;
 using Core.Entities;
+using Core.Interfaces.Repositories;
 
 namespace Tests.MockRepositories
 {
-    public class MockRepository<EntityT>: IRepository<EntityT> where EntityT : BaseEntity
+    public class MockRepository<EntityT>: IRepository<EntityT> where EntityT : Entity
     {
         protected readonly List<EntityT> _mockData = new();
 

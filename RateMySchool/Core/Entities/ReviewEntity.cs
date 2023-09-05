@@ -1,13 +1,11 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
-using Core.ViewModels;
-using Core.Interfaces;
+using System.ComponentModel.DataAnnotations.Schema;
+using Core.Models;
 
 namespace Core.Entities
 {
     [Table("review")]
-    public class ReviewEntity : BaseEntity
+    public class ReviewEntity : Entity
     {
         [Column("created_at")]
         public DateTime CreatedAt { get; private set; }
@@ -27,9 +25,8 @@ namespace Core.Entities
         [Column("user_id")]
         public Guid UserId { get; private set; }
 
-        public ReviewEntity(DataRow row)
+        public ReviewEntity(DataRow row): base(row)
         {
-            Id = Guid.Parse((string)row["id"]);
             Content = (string)row["content"];
             CreatedAt = (DateTime)row["created_at"];
             SchoolId = Guid.Parse((string)row["school_id"]);
@@ -38,13 +35,13 @@ namespace Core.Entities
             UserId = Guid.Parse((string)row["user_id"]);
         }
 
-        public ReviewEntity(ReviewViewModel viewModel)
+        public ReviewEntity(ReviewModel model): base(model)
         {
+            Content = model.Content;
+            Rating = model.Rating;
+            SchoolId = model.SchoolId;
+            UserId = model.UserId;
             CreatedAt = DateTime.Now;
-            Content = viewModel.Content;
-            Rating = viewModel.Rating;
-            SchoolId = viewModel.SchoolId;
-            UserId = viewModel.UserId;
         }
 
     }

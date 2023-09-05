@@ -1,10 +1,9 @@
-using Core.Interfaces.RepositoryInterfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
-using DAL;
-using DAL.Repositories;
-using Core.Entities.SchoolEntities;
 using Core.Entities;
+using DataAccess.Repositories;
+using Core.Entities.Schools;
+using Core.Interfaces.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +20,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IRepository<ReportEntity>, Repository<ReportEntity>>();
-builder.Services.AddTransient<IRepository<BaseSchoolEntity>, Repository<BaseSchoolEntity>>();
+builder.Services.AddTransient<IRepository<SchoolEntity>, Repository<SchoolEntity>>();
 builder.Services.AddTransient<IRepository<LanguageSchoolEntity>, SchoolRepository<LanguageSchoolEntity>>();
-builder.Services.AddTransient<IRepository<STEMSchoolEntity>, SchoolRepository<STEMSchoolEntity>>();
-builder.Services.AddTransient<IRepository<SpecializedSchoolEntity>, SchoolRepository<SpecializedSchoolEntity>>();
+builder.Services.AddTransient<IRepository<ScienceSchoolEntity>, SchoolRepository<ScienceSchoolEntity>>();
+builder.Services.AddTransient<IRepository<VocationalSchoolEntity>, SchoolRepository<VocationalSchoolEntity>>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {

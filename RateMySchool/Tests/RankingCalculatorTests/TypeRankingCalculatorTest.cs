@@ -1,15 +1,15 @@
 ﻿using Core.Interfaces.RepositoryInterfaces;
-using Core.Services.StatisticServices;
 using Core.Services;
-using Core;
-using Core.Entities.SchoolEntities;
+using Core.Entities.Schools;
+using Core.Services.RankCalculators;
+using Core.Structs;
 
-namespace Tests.RankingServicesTests
+namespace Tests.RankingCalculatorTests
 {
     [TestFixture]
     public class TypeRankingCalculatorTest
     {
-        private TypeRankingCalculator _calculator;
+        private InCategoryRankCalculator _calculator;
 
         [SetUp]
         public void SetUp() { _calculator = new(); }
@@ -17,7 +17,7 @@ namespace Tests.RankingServicesTests
         [Test]
         public void TestRankCalculator_ReturnsCalculationResult_Success()
         {
-            BaseSchoolEntity school = new BaseSchoolEntity(
+            SchoolEntity school = new SchoolEntity(
                 viewModel: new()
                 {
                     Name = "Test1",
@@ -26,9 +26,9 @@ namespace Tests.RankingServicesTests
                 }
             );
             school.GenerateId();
-            List<RatingStatistic> statistics = new()
+            List<Rating> statistics = new()
             {
-                new RatingStatistic(){ SchoolId = school.Id, SchoolType = school.Type, AverageRating = 5},
+                new Rating(){ SchoolId = school.Id, SchoolType = school.Type, AverageRating = 5},
             };
             var result = _calculator.Calculate(school, statistics);
             Assert.That(result.Rank.ContainsKey("Overall"));
@@ -41,7 +41,7 @@ namespace Tests.RankingServicesTests
         [Test]
         public void TestRankCalculator_ReturnsCalculationResult_Failuire()
         {
-            BaseSchoolEntity school = new BaseSchoolEntity(
+            SchoolEntity school = new SchoolEntity(
                 viewModel: new()
                 {
                     Name = "Test1",
@@ -50,7 +50,7 @@ namespace Tests.RankingServicesTests
                 }
             );
             school.GenerateId();
-            List<RatingStatistic> statistics = new() { };
+            List<Rating> statistics = new() { };
             var result = _calculator.Calculate(school, statistics);
             Assert.That(result.Rank.ContainsKey("Overall"));
             Assert.That(result.Rank.ContainsKey("Type"));

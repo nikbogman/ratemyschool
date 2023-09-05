@@ -1,12 +1,11 @@
-﻿using Core.ViewModels;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
-using Core.Enums;
+using Core.Models;
 
 namespace Core.Entities
 {
     [Table("user")]
-    public class UserEntity : BaseEntity
+    public class UserEntity : Entity
     {
         [Column("password")]
         public string Password { get; private set; }
@@ -17,19 +16,18 @@ namespace Core.Entities
         [Column("birth_year")]
         public int BirthYear { get; private set; }
 
-        public UserEntity(DataRow row)
+        public UserEntity(DataRow row): base(row)
         {
-            Id = Guid.Parse((string)row["id"]);
             Password = (string)row["password"];
             Email = (string)row["email"];
             BirthYear = (int)row["birth_year"];
         }
 
-        public UserEntity(UserViewModel viewModel)
+        public UserEntity(UserModel model): base(model)
         {
-            Password = viewModel.Password;
-            Email = viewModel.Email;
-            BirthYear = viewModel.BirthYear;
+            Password = model.Password;
+            Email = model.Email;
+            BirthYear = model.BirthYear;
         }
     }
 }

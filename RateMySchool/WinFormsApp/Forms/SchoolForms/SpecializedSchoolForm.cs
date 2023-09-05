@@ -1,6 +1,6 @@
 ﻿using Core.Entities.SchoolEntities;
 using Core.Managers;
-using Core.ViewModels.SchoolViewModels;
+using Core.Schemas.SchoolSchemas;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,11 +16,11 @@ namespace WinFormsApp.Forms.SchoolForms
 {
     public partial class SpecializedSchoolForm : Form
     {
-        private readonly Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> _manager;
-        public SpecializedSchoolEntity Data { get; set; }
+        private readonly Manager<VocationalSchoolEntity, VocationalSchoolSchema> _manager;
+        public VocationalSchoolEntity Data { get; set; }
 
         // CREATE
-        public SpecializedSchoolForm(Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> manager)
+        public SpecializedSchoolForm(Manager<VocationalSchoolEntity, VocationalSchoolSchema> manager)
         {
             _manager = manager;
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace WinFormsApp.Forms.SchoolForms
         {
             try
             {
-                SpecializedSchoolViewModel viewModel = new()
+                VocationalSchoolSchema viewModel = new()
                 {
                     Name = nameTextBox.Text,
                     City = cityTextBox.Text,
@@ -61,7 +61,7 @@ namespace WinFormsApp.Forms.SchoolForms
 
         // UPDATE
         private readonly Guid? _id;
-        public SpecializedSchoolForm(Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> manager, SpecializedSchoolEntity data)
+        public SpecializedSchoolForm(Manager<VocationalSchoolEntity, VocationalSchoolSchema> manager, VocationalSchoolEntity data)
         {
             _manager = manager;
             InitializeComponent();
@@ -78,7 +78,7 @@ namespace WinFormsApp.Forms.SchoolForms
         {
             try
             {
-                SpecializedSchoolViewModel viewModel = new()
+                VocationalSchoolSchema viewModel = new()
                 {
                     Name = nameTextBox.Text,
                     City = cityTextBox.Text,
@@ -107,7 +107,7 @@ namespace WinFormsApp.Forms.SchoolForms
         }
 
         // DETAILS
-        public SpecializedSchoolForm(SpecializedSchoolEntity data)
+        public SpecializedSchoolForm(VocationalSchoolEntity data)
         {
             InitializeComponent();
             nameTextBox.Text = data.Name;

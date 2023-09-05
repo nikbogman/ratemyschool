@@ -1,12 +1,13 @@
-﻿using Core.Enums;
-using WinFormsApp.Forms.SchoolForms;
+﻿using WinFormsApp.Forms.SchoolForms;
 using WinFormsApp;
-using Core.Entities.SchoolEntities;
-using Core.FeatureManagers;
-using Core.Interfaces.RepositoryInterfaces;
 using Core.Managers;
-using Core.ViewModels.SchoolViewModels;
 using DAL.Repositories;
+using Core.Services;
+using Core.Managers.Schools;
+using Core.Enums.Schools;
+using Core.Entities.Schools;
+using Core.Interfaces.Repositories;
+using Core.Models.Schools;
 
 namespace WinFormsApp.TabPages
 {
@@ -14,25 +15,25 @@ namespace WinFormsApp.TabPages
     {
         const string connectionString = "Server=studmysql01.fhict.local;Uid=dbi500555;Database=dbi500555;Pwd=1234";
         private readonly LanguageSchoolManager _languageSchoolManager;
-        private readonly Manager<STEMSchoolEntity, STEMSchoolViewModel> _stemSchoolManager;
-        private readonly Manager<SpecializedSchoolEntity, SpecializedSchoolViewModel> _specSchoolManager;
+        private readonly Manager<ScienceSchoolEntity, ScienceSchoolModel> _stemSchoolManager;
+        private readonly Manager<VocationalSchoolEntity, VocationalSchoolSchema> _specSchoolManager;
 
         public SchoolsTabPage()
         {
             IRepository<LanguageSchoolEntity> languageSchoolRepositoty = new SchoolRepository<LanguageSchoolEntity>(connectionString);
             _languageSchoolManager = new(languageSchoolRepositoty);
 
-            IRepository<STEMSchoolEntity> stemSchoolRepositoty = new SchoolRepository<STEMSchoolEntity>(connectionString);
+            IRepository<ScienceSchoolEntity> stemSchoolRepositoty = new SchoolRepository<ScienceSchoolEntity>(connectionString);
             _stemSchoolManager = new(stemSchoolRepositoty);
 
-            IRepository<SpecializedSchoolEntity> specSchoolRepositoty = new SchoolRepository<SpecializedSchoolEntity>(connectionString);
+            IRepository<VocationalSchoolEntity> specSchoolRepositoty = new SchoolRepository<VocationalSchoolEntity>(connectionString);
             _specSchoolManager = new(specSchoolRepositoty);
             InitializeComponent();
         }
 
         public void PreloadPage()
         {
-            filterComboBox.DataSource = Enum.GetValues(typeof(SchoolType));
+            filterComboBox.DataSource = Enum.GetValues(typeof(SchoolCategoryType));
             filterComboBox.SelectedIndex = 0;
 
             filterPropertyComboBox.LoadPropsFromType(typeof(LanguageSchoolEntity), x => !x.Contains("Type") && !x.Contains("Rank") && x != "Rating");
@@ -45,7 +46,7 @@ namespace WinFormsApp.TabPages
             {
                 switch (filterComboBox.SelectedItem)
                 {
-                    case SchoolType.Language:
+                    case SchoolCategoryType.Language:
                         LanguageSchoolForm langForm = new(_languageSchoolManager);
                         if (langForm.ShowDialog() == DialogResult.OK && langForm.Data != null)
                         {
@@ -54,20 +55,20 @@ namespace WinFormsApp.TabPages
                             dataGridView.Load(dataSource);
                         }
                         break;
-                    case SchoolType.STEM:
+                    case SchoolCategoryType.STEM:
                         STEMSchoolForm stemSchoolForm = new(_stemSchoolManager);
                         if (stemSchoolForm.ShowDialog() == DialogResult.OK && stemSchoolForm.Data != null)
                         {
-                            var dataSource = (List<STEMSchoolEntity>)dataGridView.DataSource;
+                            var dataSource = (List<ScienceSchoolEntity>)dataGridView.DataSource;
                             dataSource.Add(stemSchoolForm.Data);
                             dataGridView.Load(dataSource);
                         }
                         break;
-                    case SchoolType.Specialized:
+                    case SchoolCategoryType.Specialized:
                         SpecializedSchoolForm specSchoolForm = new(_specSchoolManager);
                         if (specSchoolForm.ShowDialog() == DialogResult.OK && specSchoolForm.Data != null)
                         {
-                            var dataSource = (List<SpecializedSchoolEntity>)dataGridView.DataSource;
+                            var dataSource = (List<VocationalSchoolEntity>)dataGridView.DataSource;
                             dataSource.Add(specSchoolForm.Data);
                             dataGridView.Load(dataSource);
                         }
@@ -94,7 +95,7 @@ namespace WinFormsApp.TabPages
                 }
                 switch (filterComboBox.SelectedItem)
                 {
-                    case SchoolType.Language:
+                    case SchoolCategoryType.Language:
                         var langSchool = (LanguageSchoolEntity)dataBoundItem;
                         LanguageSchoolForm form = new(_languageSchoolManager, langSchool);
                         if (form.ShowDialog() == DialogResult.OK && form.Data != null)
@@ -109,14 +110,14 @@ namespace WinFormsApp.TabPages
                             }
                         }
                         break;
-                    case SchoolType.STEM:
-                        var stemSchool = (STEMSchoolEntity)dataBoundItem;
+                    case SchoolCategoryType.STEM:
+                        var stemSchool = (ScienceSchoolEntity)dataBoundItem;
                         STEMSchoolForm stemSchoolForm = new(_stemSchoolManager, stemSchool);
                         if (stemSchoolForm.ShowDialog() == DialogResult.OK && stemSchoolForm.Data != null)
                         {
                             if (stemSchool != stemSchoolForm.Data)
                             {
-                                var dataSource = (List<STEMSchoolEntity>)dataGridView.DataSource;
+                                var dataSource = (List<ScienceSchoolEntity>)dataGridView.DataSource;
                                 int idx = dataSource.IndexOf(stemSchool);
                                 dataSource.RemoveAt(idx);
                                 dataSource.Insert(idx, stemSchoolForm.Data);
@@ -124,14 +125,14 @@ namespace WinFormsApp.TabPages
                             }
                         }
                         break;
-                    case SchoolType.Specialized:
-                        var specSchool = (SpecializedSchoolEntity)dataBoundItem;
+                    case SchoolCategoryType.Specialized:
+                        var specSchool = (VocationalSchoolEntity)dataBoundItem;
                         SpecializedSchoolForm specSchoolForm = new(_specSchoolManager, specSchool);
                         if (specSchoolForm.ShowDialog() == DialogResult.OK && specSchoolForm.Data != null)
                         {
                             if (specSchool != specSchoolForm.Data)
                             {
-                                var dataSource = (List<SpecializedSchoolEntity>)dataGridView.DataSource;
+                                var dataSource = (List<VocationalSchoolEntity>)dataGridView.DataSource;
                                 int idx = dataSource.IndexOf(specSchool);
                                 dataSource.RemoveAt(idx);
                                 dataSource.Insert(idx, specSchoolForm.Data);
@@ -161,24 +162,24 @@ namespace WinFormsApp.TabPages
                 }
                 switch (filterComboBox.SelectedItem)
                 {
-                    case SchoolType.Language:
+                    case SchoolCategoryType.Language:
                         var langSchool = (LanguageSchoolEntity)dataBoundItem;
                         _languageSchoolManager.DeleteOne(langSchool.Id);
                         var langSchoolDataSource = (List<LanguageSchoolEntity>)dataGridView.DataSource;
                         langSchoolDataSource.Remove(langSchool);
                         dataGridView.Load(langSchoolDataSource);
                         break;
-                    case SchoolType.STEM:
-                        var stemSchool = (STEMSchoolEntity)dataBoundItem;
+                    case SchoolCategoryType.STEM:
+                        var stemSchool = (ScienceSchoolEntity)dataBoundItem;
                         _languageSchoolManager.DeleteOne(stemSchool.Id);
-                        var stemSchoolDataSource = (List<STEMSchoolEntity>)dataGridView.DataSource;
+                        var stemSchoolDataSource = (List<ScienceSchoolEntity>)dataGridView.DataSource;
                         stemSchoolDataSource.Remove(stemSchool);
                         dataGridView.Load(stemSchoolDataSource);
                         break;
-                    case SchoolType.Specialized:
-                        var specSchool = (SpecializedSchoolEntity)dataBoundItem;
+                    case SchoolCategoryType.Specialized:
+                        var specSchool = (VocationalSchoolEntity)dataBoundItem;
                         _languageSchoolManager.DeleteOne(specSchool.Id);
-                        var specSchoolDataSource = (List<SpecializedSchoolEntity>)dataGridView.DataSource;
+                        var specSchoolDataSource = (List<VocationalSchoolEntity>)dataGridView.DataSource;
                         specSchoolDataSource.Remove(specSchool);
                         dataGridView.Load(specSchoolDataSource);
                         break;
@@ -205,14 +206,14 @@ namespace WinFormsApp.TabPages
                 Form? form = null;
                 switch (filterComboBox.SelectedItem)
                 {
-                    case SchoolType.Language:
+                    case SchoolCategoryType.Language:
                         form = (LanguageSchoolForm)new((LanguageSchoolEntity)dataBoundItem);
                         break;
-                    case SchoolType.STEM:
-                        form = (STEMSchoolForm)new((STEMSchoolEntity)dataBoundItem);
+                    case SchoolCategoryType.STEM:
+                        form = (STEMSchoolForm)new((ScienceSchoolEntity)dataBoundItem);
                         break;
-                    case SchoolType.Specialized:
-                        form = (SpecializedSchoolForm)new((SpecializedSchoolEntity)dataBoundItem);
+                    case SchoolCategoryType.Specialized:
+                        form = (SpecializedSchoolForm)new((VocationalSchoolEntity)dataBoundItem);
                         break;
                     default:
                         break;
@@ -241,7 +242,7 @@ namespace WinFormsApp.TabPages
                 }
                 switch (filterComboBox.SelectedItem)
                 {
-                    case SchoolType.Language:
+                    case SchoolCategoryType.Language:
                         dataGridView.Load(_languageSchoolManager.GetAll());
 
                         var langSchools = SearchFilterService.Filter(
@@ -255,29 +256,29 @@ namespace WinFormsApp.TabPages
                         }
                         dataGridView.Load(langSchools);
                         break;
-                    case SchoolType.STEM:
+                    case SchoolCategoryType.STEM:
                         dataGridView.Load(_stemSchoolManager.GetAll());
 
                         var stemSchools = SearchFilterService.Filter(
-                            unfiltered: (IEnumerable<STEMSchoolEntity>)dataGridView.DataSource,
+                            unfiltered: (IEnumerable<ScienceSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,
                             searchValue
                         );
-                        if (stemSchools == Enumerable.Empty<STEMSchoolEntity>())
+                        if (stemSchools == Enumerable.Empty<ScienceSchoolEntity>())
                         {
                             throw new Exception("There were no specialized schools found for this search");
                         }
                         dataGridView.Load(stemSchools);
                         break;
-                    case SchoolType.Specialized:
+                    case SchoolCategoryType.Specialized:
                         dataGridView.Load(_specSchoolManager.GetAll());
 
                         var specSchools = SearchFilterService.Filter(
-                            unfiltered: (IEnumerable<SpecializedSchoolEntity>)dataGridView.DataSource,
+                            unfiltered: (IEnumerable<VocationalSchoolEntity>)dataGridView.DataSource,
                             propertyName: filterPropertyComboBox.Text,
                             searchValue
                         );
-                        if (specSchools == Enumerable.Empty<SpecializedSchoolEntity>())
+                        if (specSchools == Enumerable.Empty<VocationalSchoolEntity>())
                         {
                             throw new Exception("There were no stem schools found for this search");
                         }
@@ -315,16 +316,16 @@ namespace WinFormsApp.TabPages
                 static bool predictate(string x) => !x.Contains("Type") && !x.Contains("Rank") && x != "Rating";
                 switch (filterComboBox.SelectedItem)
                 {
-                    case SchoolType.Language:
+                    case SchoolCategoryType.Language:
                         filterPropertyComboBox.LoadPropsFromType(typeof(LanguageSchoolEntity), predictate);
                         dataGridView.Load(_languageSchoolManager.GetAll());
                         break;
-                    case SchoolType.STEM:
-                        filterPropertyComboBox.LoadPropsFromType(typeof(STEMSchoolEntity), predictate);
+                    case SchoolCategoryType.STEM:
+                        filterPropertyComboBox.LoadPropsFromType(typeof(ScienceSchoolEntity), predictate);
                         dataGridView.Load(_stemSchoolManager.GetAll());
                         break;
-                    case SchoolType.Specialized:
-                        filterPropertyComboBox.LoadPropsFromType(typeof(SpecializedSchoolEntity), predictate);
+                    case SchoolCategoryType.Specialized:
+                        filterPropertyComboBox.LoadPropsFromType(typeof(VocationalSchoolEntity), predictate);
                         dataGridView.Load(_specSchoolManager.GetAll());
                         break;
                     default:

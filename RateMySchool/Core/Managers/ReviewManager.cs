@@ -1,13 +1,13 @@
 using Core.Entities;
 using Core.Exceptions;
-using Core.Interfaces.RepositoryInterfaces;
-using Core.ViewModels;
+using Core.Interfaces.Repositories;
+using Core.Models;
 using System.Data;
 using System.Diagnostics;
 
 namespace Core.Managers
 {
-    public class ReviewManager : Manager<ReviewEntity, ReviewViewModel>
+    public class ReviewManager : Manager<ReviewEntity, ReviewModel>
     {
         public ReviewManager(IReviewRepository repository) : base(repository) { }
 

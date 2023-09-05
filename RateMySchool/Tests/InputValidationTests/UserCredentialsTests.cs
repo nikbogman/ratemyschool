@@ -1,8 +1,8 @@
 ﻿using Core.Exceptions;
 using Core.Interfaces;
-using Core.Interfaces.RepositoryInterfaces;
+using Core.Interfaces.Repositories;
 using Core.Managers;
-using Core.ViewModels;
+using Core.Models;
 using Tests.MockRepositories;
 
 namespace Tests.InputValidationTests
@@ -11,7 +11,7 @@ namespace Tests.InputValidationTests
     public class UserCredentialsTests
     {
         private UserManager manager;
-        private readonly UserViewModel viewModel = new() { Email = "email@email" };
+        private readonly UserModel viewModel = new() { Email = "email@email" };
 
         [SetUp]
         public void SetUp()
@@ -25,8 +25,8 @@ namespace Tests.InputValidationTests
         {
             string email = "email@email";
             string password = "P@ssw0rd";
-            UserViewModel viewModel1 = new() { Email = email, Password = password };
-            UserViewModel viewModel2 = new() { Email = email, Password = password };
+            UserModel viewModel1 = new() { Email = email, Password = password };
+            UserModel viewModel2 = new() { Email = email, Password = password };
             manager.CreateOne(viewModel1);
             TestDelegate action = delegate () { manager.viewModelParser(viewModel2); };
             var exception = Assert.Throws<InputValidationException>(action);
@@ -36,7 +36,7 @@ namespace Tests.InputValidationTests
         [Test]
         public void TestPasswordVerification()
         {
-            UserViewModel viewModel1 = new() { Email = "email1@email1", Password = "P@ssw0rd" };
+            UserModel viewModel1 = new() { Email = "email1@email1", Password = "P@ssw0rd" };
             manager.CreateOne(viewModel1);
             TestDelegate action = delegate () { manager.GetOneWithCredentials("email1@email1", "password"); };
             Assert.Throws<UnauthorizedException>(action);
@@ -84,7 +84,7 @@ namespace Tests.InputValidationTests
         public void TestUserViewModelPaserSuccess()
         {
             viewModel.Password = "P@ssw0rd";
-            UserViewModel result = manager.viewModelParser(viewModel);
+            UserModel result = manager.viewModelParser(viewModel);
             Assert.AreNotEqual(result.Password, "P@ssw0rd");
         }
     }

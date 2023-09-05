@@ -1,9 +1,9 @@
 ﻿using Core.Entities;
 using Core.Managers;
-using DAL.Repositories;
 using WinFormsApp.Forms;
 using WinFormsApp;
-using Core.FeatureManagers;
+using DataAccess.Repositories;
+using Core.Services;
 
 namespace WinFormsApp.TabPages
 {

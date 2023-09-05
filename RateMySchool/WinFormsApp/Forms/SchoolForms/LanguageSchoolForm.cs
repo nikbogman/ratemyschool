@@ -1,7 +1,7 @@
-﻿using Core.Entities.SchoolEntities;
-using Core.Managers;
+﻿using Core.Entities.Schools;
+using Core.Managers.Schools;
+using Core.Models.Schools;
 using Core.ViewModels;
-using Core.ViewModels.SchoolViewModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace WinFormsApp.Forms.SchoolForms
@@ -23,7 +23,7 @@ namespace WinFormsApp.Forms.SchoolForms
         {
             try
             {
-                LanguageSchoolViewModel viewModel = new()
+                LanguageSchoolModel viewModel = new()
                 {
                     Name = nameTextBox.Text,
                     City = cityTextBox.Text,
@@ -72,7 +72,7 @@ namespace WinFormsApp.Forms.SchoolForms
         {
             try
             {
-                LanguageSchoolViewModel viewModel = new()
+                LanguageSchoolModel viewModel = new()
                 {
                     Name = nameTextBox.Text,
                     City = cityTextBox.Text,

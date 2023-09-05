@@ -1,10 +1,10 @@
-﻿namespace Core.FeatureManagers
+﻿namespace Core.Services
 {
     public static class SearchFilterService
     {
         public static IEnumerable<T> Filter<T>(IEnumerable<T> unfiltered, string propertyName, string searchValue) where T : class
         {
-            List<T> filtered = new();
+            var filtered = new List<T>();
             foreach (var entity in unfiltered)
             {
                 var property = entity.GetType().GetProperty(propertyName);

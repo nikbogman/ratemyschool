@@ -1,14 +1,13 @@
 ﻿using Core.Entities;
 using Core.Exceptions;
-using Core.Interfaces.RepositoryInterfaces;
-using System.Diagnostics;
 using Core.Interfaces;
+using Core.Interfaces.Repositories;
 
 namespace Core.Managers
 {
     public class Manager<EntityT, ViewModelT>
-        where EntityT : BaseEntity
-        where ViewModelT : IViewModel
+        where EntityT : Entity
+        where ViewModelT : IModel
     {
         private readonly IRepository<EntityT> _repository;
         protected virtual IRepository<EntityT> Repository { get => _repository; }
@@ -49,7 +48,7 @@ namespace Core.Managers
         {
             if (!_repository.Delete(id))
             {
-                throw new NotFoundException($"{_entityName} with id:{id} was not found in order to be deleted");
+                throw new NotFoundException($"{_entityName} with id:{id} was not found and therefore cannot be deleted");
             }
             return;
         }
@@ -61,7 +60,7 @@ namespace Core.Managers
             entity.SetId(id);
             if (!_repository.Update(entity))
             {
-                throw new NotFoundException($"{_entityName} with id:{id} was not found in order to be updated");
+                throw new NotFoundException($"{_entityName} with id:{id} was not found and therefore cannot be updated");
             }
             return entity;
         }

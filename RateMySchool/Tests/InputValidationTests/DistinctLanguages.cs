@@ -1,8 +1,8 @@
-﻿using Core.Entities.SchoolEntities;
+﻿using Core.Entities.Schools;
 using Core.Exceptions;
-using Core.Interfaces.RepositoryInterfaces;
-using Core.Managers;
-using Core.ViewModels.SchoolViewModels;
+using Core.Interfaces.Repositories;
+using Core.Managers.Schools;
+using Core.Models.Schools;
 using Tests.MockRepositories;
 
 namespace Tests.InputValidationTests
@@ -22,7 +22,7 @@ namespace Tests.InputValidationTests
         [Test]
         public void TestDistinctLanguagesBeforeSavingLanguageSchool()
         {
-            LanguageSchoolViewModel viewModel = new()
+            LanguageSchoolModel viewModel = new()
             {
                 Name = "Test1",
                 City = "TestCity1",
